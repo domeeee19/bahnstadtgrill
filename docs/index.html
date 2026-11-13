@@ -6,6 +6,8 @@
 <title>Bahnstadt Grill Opladen – Gyros, Kölsch & Biergarten am Bahnhof</title>
 <meta name="description" content="Griechischer Grill, Kneipe und Biergarten an der Lützenkirchener Straße 12 in Leverkusen-Opladen. Gyros Pita, Pizza, vier Dartscheiben. Mo–Sa 11:30–21 Uhr, Biergarten 17–22 Uhr.">
 <meta name="theme-color" content="#08132e">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://bahnstadtgrill.de/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -16,7 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/patron.webp" as="image" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/patron.webp" imagesrcset="assets/img/patron-640.webp 640w, assets/img/patron.webp 1024w" imagesizes="(max-width: 720px) 100vw, 520px" fetchpriority="high">
 <link rel="stylesheet" href="assets/styles.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":["Restaurant","BarOrPub"],"name":"Bahnstadt Grill Opladen","alternateName":["Bahnstadtgrill","Zur Schwelle"],"url":"https://bahnstadtgrill.de/","logo":"https://bahnstadtgrill.de/assets/logo/bahnstadt-grill.svg","image":"https://bahnstadtgrill.de/share.jpg","telephone":"+49217180154","email":"bahnstadtgrill@gmail.com","servesCuisine":["Griechisch","Pizza","Imbiss"],"priceRange":"€","hasMenu":"https://bahnstadtgrill.de/speisekarte.html","address":{"@type":"PostalAddress","streetAddress":"Lützenkirchener Straße 12","postalCode":"51379","addressLocality":"Leverkusen","addressRegion":"Nordrhein-Westfalen","addressCountry":"DE"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"11:30","closes":"21:00"}],"amenityFeature":[{"@type":"LocationFeatureSpecification","name":"Biergarten, Montag bis Samstag 17 bis 22 Uhr","value":true}],"sameAs":["https://www.facebook.com/100083409045368/"]}
@@ -71,6 +73,7 @@
           <span class="line"><span class="amber">Biergarten.</span></span>
         </h1>
         <p class="serif hero__greet">„Kali mera, alles klar?!“</p>
+        <p class="hero__lead">Griechischer Grill und Imbiss mit Biergarten, direkt am Bahnhof Opladen. Zum Hieressen, draußen sitzen oder Mitnehmen.</p>
         <div class="hero__actions">
           <a class="btn" href="index.html#karte">Zur Speisekarte <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn--ghost" href="tel:+49217180154">02171 80154 anrufen</a>
@@ -113,7 +116,7 @@
     <div class="wrap">
       <figure>
         <blockquote data-words>Hier gibt es die <span class="hl">beste Gyros Pita</span> von Welt!</blockquote>
-        <figcaption class="reveal"><span><b>Frau Krüger</b>, Stammgast</span><span>zitiert im Gastrotipp von „Lust auf Leverkusen“ (Stadtmarketing Leverkusen)</span><a href="https://lust-auf-leverkusen.de/bahnstadt-grill-neue-bahnstadt-opladen/" rel="noopener" target="_blank">Artikel lesen ↗</a></figcaption>
+        <figcaption class="reveal"><span><b>Frau Krüger</b>, Stammgast</span><span>zitiert im Gastrotipp von „Lust auf Leverkusen“ (Stadtmarketing Leverkusen)</span><a href="https://lust-auf-leverkusen.de/bahnstadt-grill-neue-bahnstadt-opladen/" target="_blank" rel="noopener noreferrer">Artikel lesen ↗</a></figcaption>
       </figure>
     </div>
   </section>
@@ -217,7 +220,7 @@
 
       <form class="booking__form reveal" data-booking data-endpoint="" novalidate>
         <div class="ticket__head" aria-hidden="true"><span>Reservierung</span><span>Gleis 3 · Biergarten</span></div>
-        <div class="field field--full"><label for="b-name">Name</label><input id="b-name" name="name" type="text" autocomplete="name" required><p class="field__error" hidden>Bitte geben Sie Ihren Namen an.</p></div>
+        <div class="field field--full"><label for="b-name">Name</label><input maxlength="80" id="b-name" name="name" type="text" autocomplete="name" required><p class="field__error" hidden>Bitte geben Sie Ihren Namen an.</p></div>
         <div class="field f-date"><label for="b-date">Datum</label><input id="b-date" name="datum" type="date" required><p class="field__error" hidden>Bitte wählen Sie einen Tag von Montag bis Samstag.</p></div>
         <div class="field f-time"><label for="b-time">Uhrzeit</label>
           <select id="b-time" name="uhrzeit" required>
@@ -229,9 +232,9 @@
             <option value="">Bitte wählen</option>
             <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option value="mehr als 12">mehr als 12</option>
           </select><p class="field__error" hidden>Bitte geben Sie die Personenzahl an.</p></div>
-        <div class="field f-phone"><label for="b-phone">Telefon</label><input id="b-phone" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required><p class="field__error" hidden>Bitte geben Sie eine Telefonnummer für Rückfragen an.</p></div>
-        <div class="field f-email"><label for="b-email">E-Mail <small>(optional)</small></label><input id="b-email" name="email" type="email" autocomplete="email"><p class="field__error" hidden>Bitte prüfen Sie die E-Mail-Adresse.</p></div>
-        <div class="field field--full"><label for="b-note">Nachricht <small>(optional)</small></label><textarea id="b-note" name="nachricht" rows="3" placeholder="z. B. Geburtstag, Kinderstuhl, Tisch unter dem Sonnendach"></textarea></div>
+        <div class="field f-phone"><label for="b-phone">Telefon</label><input maxlength="30" id="b-phone" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required><p class="field__error" hidden>Bitte geben Sie eine Telefonnummer für Rückfragen an.</p></div>
+        <div class="field f-email"><label for="b-email">E-Mail <small>(optional)</small></label><input maxlength="120" id="b-email" name="email" type="email" autocomplete="email"><p class="field__error" hidden>Bitte prüfen Sie die E-Mail-Adresse.</p></div>
+        <div class="field field--full"><label for="b-note">Nachricht <small>(optional)</small></label><textarea maxlength="500" id="b-note" name="nachricht" rows="3" placeholder="z. B. Geburtstag, Kinderstuhl, Tisch unter dem Sonnendach"></textarea></div>
         <div class="field--full booking__submit">
           <button class="btn btn--blue" type="submit">Reservierung anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <p class="booking__hint">Die Anfrage öffnet Ihr E-Mail-Programm mit einer fertigen Nachricht an uns. Erst mit unserer Bestätigung ist der Tisch reserviert. <a href="datenschutz.html#reservierung">Datenschutz</a></p>
@@ -253,9 +256,13 @@
       </div>
       <div class="theke__grid">
         <div class="score reveal">
-          <p class="score__label">● Vor dem Anpfiff</p>
-          <div class="score__teams"><span class="score__team score__team--b04"><span>Bayer</span><b>04</b></span><span class="score__vs">Treff</span><span class="score__team">Fans</span></div>
-          <p>Vor den Spielen treffen sich bei uns einige Bayer-04-Fans auf ein Gyros und ein kaltes Getränk, bevor es Richtung Stadion geht. Übertragen werden die Spiele hier nicht. Größere Runden melden sich am besten vorher: <a href="tel:+49217180154" style="color:var(--amber);font-weight:700">02171 80154</a>.</p>
+          <p class="score__label">● Fan-Treff</p>
+          <div class="fan">
+            <span class="score__team score__team--b04"><span>Bayer</span><b>04</b></span>
+            <p class="fan__title">Treffpunkt vor dem Spiel</p>
+          </div>
+          <p>Vor den Spielen treffen sich bei uns einige Bayer-04-Fans auf ein Gyros und ein kaltes Getränk, bevor es Richtung Stadion geht.</p>
+          <p class="fan__note">Spiele werden bei uns nicht übertragen. Größere Runden melden sich am besten vorher: <a href="tel:+49217180154">02171 80154</a></p>
         </div>
         <div class="theke__cards">
           <a class="feature reveal" href="index.html#besuch" style="--d:.1s">
@@ -283,7 +290,7 @@
           <p class="kicker reveal" style="color:var(--blue)">Google-Bewertungen</p>
           <h2 class="display sec__title reveal" id="reviews-title">Das sagen <em>unsere</em> Gäste</h2>
         </div>
-        <a class="btn btn--blue reveal" href="https://share.google/wQrjQuwJbGND05kUd" target="_blank" rel="noopener">Alle Bewertungen auf Google <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <a class="btn btn--blue reveal" href="https://share.google/wQrjQuwJbGND05kUd" target="_blank" rel="noopener noreferrer">Alle Bewertungen auf Google <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
       <div class="review-grid">
         <figure class="review reveal" style="--d:.05s">
@@ -304,7 +311,7 @@
           <p class="review__stars" role="img" aria-label="5 von 5 Sternen">★★★★★</p>
           <blockquote>Hatten Gyros-Pommes bestellt. Das Fleisch ist sehr lecker und die Pommes sind dünn und knusprig – so wie Pommes sein sollen. Das Tsatsiki war ebenfalls sehr lecker – es schmeckt überall anders, was auf Frische hindeutet. Das Essen wurde uns auch schnell gebracht. Wir kommen gerne wieder.</blockquote>
         </figure>
-        <a class="review review--cta reveal" style="--d:.25s" href="https://share.google/wQrjQuwJbGND05kUd" target="_blank" rel="noopener">
+        <a class="review review--cta reveal" style="--d:.25s" href="https://share.google/wQrjQuwJbGND05kUd" target="_blank" rel="noopener noreferrer">
           <span class="review__big">Waren Sie schon da?</span>
           <span>Wir freuen uns über Ihre Bewertung auf Google.</span>
           <span class="review__go">Bewertung schreiben →</span>
@@ -342,7 +349,7 @@
     <div class="wrap visit__grid">
       <div>
         <p class="kicker reveal" style="color:var(--amber)">Endstation Hunger</p>
-        <h2 class="display visit__address reveal" id="visit-title"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen" target="_blank" rel="noopener">Lützenkirchener Str. 12</a></h2>
+        <h2 class="display visit__address reveal" id="visit-title"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen" target="_blank" rel="noopener noreferrer">Lützenkirchener Str. 12</a></h2>
         <p class="visit__district reveal">51379 Leverkusen-Opladen · direkt an der Bahnhofsbrücke</p>
         <span class="live reveal"><span class="dot" data-status-dot></span><span data-status>Mo–Sa 11:30–21:00, Sonntag Ruhetag</span></span>
         <div class="hours reveal" data-hours>
@@ -351,7 +358,7 @@
           <div class="hours__row" data-days="1,2,3,4,5,6"><b>Biergarten</b><span>Mo–Sa 17:00 – 22:00</span></div>
         </div>
         <div class="visit__actions reveal">
-          <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen" target="_blank" rel="noopener">Route planen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen" target="_blank" rel="noopener noreferrer">Route planen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn--ghost" href="tel:+49217180154">02171 80154</a>
         </div>
       </div>
@@ -384,11 +391,13 @@
       <img src="assets/logo/bahnstadt-grill.svg" width="110" height="130" alt="Bahnstadt Grill">
       <nav class="footer__links" aria-label="Seiten">
         <a href="index.html#karte">Speisekarte</a>
-        <a href="index.html#biergarten">Biergarten</a>
+        <a href="biergarten-karte.html">Biergarten-Karte</a>
+        <a href="index.html#reservieren">Tisch reservieren</a>
         <a href="index.html#theke">Dart & Treffpunkt</a>
+        <a href="index.html#bewertungen">Bewertungen</a>
         <a href="index.html#geschichte">Geschichte</a>
         <a href="index.html#besuch">Anfahrt</a>
-        <a href="https://www.facebook.com/100083409045368/" rel="noopener" target="_blank">Facebook</a>
+        <a href="https://www.facebook.com/100083409045368/" target="_blank" rel="noopener noreferrer">Facebook</a>
       </nav>
       <div class="footer__contact">
         <a href="tel:+49217180154">02171 80154</a>
@@ -404,7 +413,7 @@
 </footer>
 <nav class="actionbar" data-actionbar aria-label="Schnellzugriff">
   <a href="tel:+49217180154"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Anrufen</a>
-  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>Route planen</a>
+  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>Route planen</a>
 </nav>
 <!--/FOOTER-->
 

@@ -61,3 +61,14 @@ Danach http://localhost:8000 öffnen.
 Das Formular im Abschnitt `#reservieren` prüft die Eingaben (kein Sonntag, kein vergangenes Datum, 17–21 Uhr) und öffnet dann das E-Mail-Programm des Gastes mit einer fertigen Anfrage an bahnstadtgrill@gmail.com. Es läuft ohne Server, also auch auf GitHub Pages.
 
 Soll die Anfrage ohne E-Mail-Programm ankommen, einen Formular-Dienst (z. B. Formspree) anlegen und dessen Adresse in `docs/index.html` bei `data-endpoint=""` am Formular eintragen. Dann sendet die Seite direkt und zeigt eine Bestätigung; die Datenschutzerklärung muss diesen Dienst dann nennen.
+
+## Sicherheit und Datenschutz
+
+- **Content-Security-Policy** als `<meta>` in jeder Seite: Skripte, Schriften und Bilder nur von der eigenen Domain, keine Inline-Skripte, Einbettungen nur von Google Maps, Formulare nur an die eigene Seite oder `mailto:`, `upgrade-insecure-requests`. Bei neuen externen Diensten (z. B. Formular-Endpunkt) muss die Policy erweitert werden: `connect-src` in `docs/index.html` und `tools/build-pages.py`.
+- **Referrer-Policy** `strict-origin-when-cross-origin`; alle externen Links mit `rel="noopener noreferrer"`.
+- **Google Maps** lädt erst nach Klick und läuft in einem `sandbox`-iframe.
+- **Formular**: Längenbegrenzung aller Felder, Prüfung im Browser, kein Server, keine Speicherung.
+- **Keine Cookies, kein Tracking, keine externen Schriften.**
+- Header, die per `<meta>` nicht gesetzt werden können (`X-Frame-Options`, `Permissions-Policy`, HSTS), setzt GitHub Pages nicht. Beim Umzug auf eigenes Hosting (z. B. Netlify oder Cloudflare Pages) diese Header dort ergänzen.
+
+Prüfstand (lokal, Lighthouse): mobil 96 / 100 / 100 / 100, Desktop 100 / 100 / 100 / 100 (Performance / Barrierefreiheit / Best Practices / SEO); axe-core ohne Befund auf allen Seiten.

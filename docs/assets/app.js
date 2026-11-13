@@ -188,7 +188,8 @@
     const light = () => {
       const r = quote.getBoundingClientRect();
       const p = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35)));
-      const n = reduce ? words.length : Math.round(p * words.length * 1.15);
+      const outside = r.top > innerHeight || r.bottom < 0;
+      const n = reduce || outside ? words.length : Math.round(p * words.length * 1.15);
       words.forEach((w, i) => w.classList.toggle('is-lit', i < n));
     };
     addEventListener('scroll', light, { passive: true });
@@ -230,6 +231,7 @@
     f.loading = 'lazy';
     f.referrerPolicy = 'no-referrer-when-downgrade';
     f.allowFullscreen = true;
+    f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
     box.append(f);
     $('[data-map-consent]').remove();
   });

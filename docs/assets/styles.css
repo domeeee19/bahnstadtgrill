@@ -541,3 +541,29 @@ section { position: relative; }
 .brand span { white-space: nowrap; }
 @media (max-width: 380px) { .brand span { font-size: 20px; } .brand img { width: 34px; height: 40px; } }
 .mobile-menu__list a { grid-template-columns: 2em 1fr; }
+
+/* ---------------------------------------------------------------- Feinschliff: Klarheit und Kontrast */
+.hero__lead { max-width: 46ch; margin: -10px 0 28px; font-size: clamp(17px, 1.25vw, 19px); line-height: 1.55; color: rgba(247, 240, 227, .86); opacity: 0; animation: fade 1s .68s var(--ease) forwards; }
+.footer__legal, .footer__legal a { color: rgba(247, 240, 227, .78); opacity: 1; }
+.footer__links a { opacity: .88; }
+.review__avatar--b { background: #b85d00; }
+.sign--old { color: #6f6553; border-color: #9c917c; }
+.score { justify-content: flex-start; gap: 18px; }
+.fan { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin: 6px 0 4px; }
+.fan .score__team--b04 { font: 400 clamp(26px, 3vw, 40px)/1 var(--display); text-transform: uppercase; }
+.fan__title { margin: 0; font: 400 clamp(26px, 2.6vw, 38px)/1.05 var(--display); text-transform: uppercase; color: var(--amber); }
+.score p { margin: 0; }
+.fan__note { font-size: 14px; color: rgba(247, 240, 227, .6) !important; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .1); }
+.fan__note a { color: var(--amber); font-weight: 700; }
+.score .fan__title { color: var(--amber); }
+.score { align-self: start; }
+.feature h3 { line-height: 1.04; }
+@media (min-width: 1081px) {
+  .score { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "label label" "fan text" "fan note"; gap: 10px 48px; align-items: center; padding: 34px 40px; }
+  .score__label { grid-area: label; }
+  .score .fan { grid-area: fan; flex-direction: column; align-items: flex-start; margin: 0; }
+  .score > p:not(.score__label):not(.fan__note) { grid-area: text; }
+  .score .fan__note { grid-area: note; }
+  .theke__cards { grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1.3fr; }
+  .feature--wide { grid-column: auto; min-height: 300px; }
+}

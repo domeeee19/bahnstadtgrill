@@ -39,6 +39,8 @@ def page(slug, title, description, h1, lead, body, robots="index,follow"):
 <meta name="description" content="{html.escape(description)}">
 <meta name="robots" content="{robots}">
 <meta name="theme-color" content="#08132e">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://bahnstadtgrill.de/{slug}">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -174,7 +176,7 @@ datenschutz = f"""<div class="prose">
 <h2>Links zu anderen Anbietern</h2>
 <p>„Route planen“ öffnet die Routenplanung von Google Maps, der Facebook-Link unsere Facebook-Seite. Daten gehen erst an diese Anbieter, wenn Sie den Link anklicken. Dort gelten deren Datenschutzbestimmungen.</p>
 <h2 id="google-maps">Google Maps</h2>
-<p>Im Bereich „Anfahrt“ können Sie eine Karte von Google Maps einblenden. Sie wird erst geladen, wenn Sie auf „Google Maps laden“ klicken; vorher werden keine Daten an Google übertragen. Nach dem Klick stellt Ihr Browser eine Verbindung zu Servern der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, her. Google erhält dabei unter anderem Ihre IP-Adresse und kann Cookies setzen; eine Übermittlung in die USA ist möglich. Rechtsgrundlage ist Ihre Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Sie gilt nur für den jeweiligen Seitenaufruf. Mehr dazu in der <a href="https://policies.google.com/privacy?hl=de" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+<p>Im Bereich „Anfahrt“ können Sie eine Karte von Google Maps einblenden. Sie wird erst geladen, wenn Sie auf „Google Maps laden“ klicken; vorher werden keine Daten an Google übertragen. Nach dem Klick stellt Ihr Browser eine Verbindung zu Servern der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, her. Google erhält dabei unter anderem Ihre IP-Adresse und kann Cookies setzen; eine Übermittlung in die USA ist möglich. Rechtsgrundlage ist Ihre Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Sie gilt nur für den jeweiligen Seitenaufruf. Mehr dazu in der <a href="https://policies.google.com/privacy?hl=de" rel="noopener noreferrer">Datenschutzerklärung von Google</a>.</p>
 <h2>Ihre Rechte</h2>
 <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO). Eine Nachricht an <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a> genügt. Beschweren können Sie sich bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, Kavalleriestraße 2–4, 40213 Düsseldorf.</p>
 <h2>Stand</h2>
@@ -194,8 +196,8 @@ for c in credits:
         continue
     rows.append(
         f'<li><b>{html.escape(c["by"])}</b><br>{html.escape(c["source"])}, '
-        f'<a href="{c["licenceUrl"]}" rel="noopener">{html.escape(c["licence"])}</a>, '
-        f'<a href="{c["page"]}" rel="noopener">Originaldatei</a>; für die Website zugeschnitten</li>'
+        f'<a href="{c["licenceUrl"]}" rel="noopener noreferrer">{html.escape(c["licence"])}</a>, '
+        f'<a href="{c["page"]}" rel="noopener noreferrer">Originaldatei</a>; für die Website zugeschnitten</li>'
     )
 for own in legal.get("ownPhotos", []):
     rows.append(f'<li><b>{html.escape(own)}</b><br>Foto des Bahnstadt Grill</li>')
