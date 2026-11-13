@@ -228,9 +228,9 @@ section { position: relative; }
 .polaroid img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
 .polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 12px; text-align: center; color: var(--ink); font: 400 20px var(--serif); font-style: italic; }
 .polaroid:hover { transform: rotate(0) scale(1.05) !important; z-index: 5; }
-.polaroid--a { width: 58%; height: 70%; left: 0; top: 4%; transform: rotate(-5deg); }
-.polaroid--b { width: 52%; height: 60%; right: 0; top: 0; transform: rotate(4deg); }
-.polaroid--c { width: 50%; height: 56%; left: 28%; bottom: 0; transform: rotate(-1.5deg); z-index: 2; }
+.polaroid--a { width: 46%; height: 94%; left: 0; top: 2%; transform: rotate(-4deg); z-index: 2; }
+.polaroid--b { width: 54%; height: 46%; right: 0; top: 0; transform: rotate(3deg); }
+.polaroid--c { width: 48%; height: 48%; right: 4%; bottom: 0; transform: rotate(-2deg); z-index: 1; }
 
 /* ---------------------------------------------------------------- Theke */
 .theke { background: var(--night); color: var(--cream); overflow: hidden; }
@@ -359,10 +359,11 @@ section { position: relative; }
   .stop::before { top: 4px; left: -46px; }
   .theke__cards { grid-template-columns: 1fr; }
   .feature--wide { grid-column: auto; }
-  .collage { height: 520px; }
-  .polaroid--a { width: 70%; height: 52%; }
-  .polaroid--b { width: 62%; height: 46%; top: 30%; }
-  .polaroid--c { width: 64%; height: 42%; left: 4%; }
+  .collage { height: 560px; }
+  .polaroid figcaption { font-size: 16px; bottom: 9px; }
+  .polaroid--a { width: 50%; height: 80%; padding: 8px 8px 38px; }
+  .polaroid--b { width: 52%; height: 40%; top: 2%; right: 0; padding: 8px 8px 38px; }
+  .polaroid--c { width: 50%; height: 42%; right: 2%; bottom: 2%; padding: 8px 8px 38px; }
   .footer__grid { grid-template-columns: 1fr; text-align: left; }
   .footer__links { justify-content: flex-start; }
   .footer__contact { text-align: left; }
@@ -447,3 +448,13 @@ section { position: relative; }
 .beer__glass i:nth-of-type(8) { left: 94%; --s: 9px; --t: 6.8s; --dl: -5s; --x: 8px; }
 .beer__glass i:nth-of-type(9) { left: 44%; --s: 6px; --t: 6.2s; --dl: -1.6s; }
 .beer__glass i:nth-of-type(10) { left: 36%; --s: 8px; --t: 7.2s; --dl: -4.4s; --x: 6px; }
+
+/* Biergarten-Collage auf dem Handy: Raster ohne Überdeckung */
+@media (max-width: 720px) {
+  .collage { height: auto; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; aspect-ratio: 1 / 1.25; }
+  .collage .polaroid { position: relative; inset: auto; width: auto !important; height: auto !important; min-height: 0; margin: 0; }
+  .collage .polaroid img { height: 100%; }
+  .collage .polaroid--a { grid-row: 1 / 3; transform: rotate(-2deg); }
+  .collage .polaroid--b { transform: rotate(2deg); }
+  .collage .polaroid--c { transform: rotate(-1.5deg); }
+}
