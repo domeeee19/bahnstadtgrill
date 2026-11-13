@@ -1,0 +1,327 @@
+/**
+ * Speisekarte.
+ *
+ * Gerichte und Kategorien werden nur hier gepflegt. `price` ist optional:
+ * Sobald ein Preis eingetragen ist (z. B. "9,50"), erscheint er automatisch
+ * auf der Seite und in den strukturierten Daten.
+ *
+ * Stand der Gerichteliste: öffentliche Speisekarten-Verzeichnisse 06/2026 –
+ * vor Veröffentlichung bitte mit der aktuellen Karte abgleichen.
+ */
+
+export type MenuItem = {
+  name: string;
+  description?: string;
+  /** Preis in Euro als Text, z. B. "9,50". */
+  price?: string;
+  vegetarian?: boolean;
+  /** Hausgemacht – wird auf der Karte markiert. */
+  homemade?: boolean;
+};
+
+export type MenuCategory = {
+  id: string;
+  title: string;
+  intro?: string;
+  items: MenuItem[];
+};
+
+export type MenuGroup = {
+  id: string;
+  title: string;
+  categories: MenuCategory[];
+};
+
+export const food: MenuCategory[] = [
+  {
+    id: "gyros",
+    title: "Gyros",
+    intro:
+      "Vom Drehspieß, außen knusprig und innen saftig. Dazu unser hausgemachter Tzatziki und Krautsalat.",
+    items: [
+      {
+        name: "Gyros Pita",
+        description: "mit Krautsalat, Zwiebeln und Tzatziki in der Teigtasche",
+      },
+      {
+        name: "Gyros Komplett",
+        description: "mit Pommes frites, Tzatziki und Krautsalat",
+      },
+      { name: "Gyros mit Pommes frites und Tzatziki" },
+      { name: "Gyros mit Pommes frites und Krautsalat" },
+      { name: "Gyros mit Krautsalat und Tzatziki" },
+      { name: "Gyros mit Pommes frites" },
+      { name: "Gyros mit Tzatziki" },
+      { name: "Gyros", description: "nur Fleisch" },
+    ],
+  },
+  {
+    id: "ueberbacken",
+    title: "Überbackenes Gyros",
+    intro: "Aus dem Ofen, mit hausgemachter Metaxasauce.",
+    items: [
+      { name: "Gyros mit Feta und Metaxasauce" },
+      { name: "Gyros mit Gouda und Metaxasauce" },
+      { name: "Hähnchen-Gyros mit Feta und Metaxasauce" },
+      { name: "Hähnchen-Gyros mit Gouda und Metaxasauce" },
+      { name: "Gyros Box", description: "mit Pommes frites" },
+    ],
+  },
+  {
+    id: "pizza",
+    title: "Pizza",
+    intro: "Frisch belegt und gebacken – klassisch italienisch oder auf griechische Art.",
+    items: [
+      { name: "Pizza Gyros", description: "mit Gyros und Zwiebeln" },
+      {
+        name: "Pizza Gyros Spezial",
+        description: "mit Gyros, Feta, Peperoni und Zwiebeln",
+      },
+      {
+        name: "Pizza Metaxa",
+        description: "mit Gyros, Feta und Metaxasauce, ohne Tomatensauce",
+      },
+      {
+        name: "Pizza Greek Style",
+        description: "mit Tomaten, Feta, Oliven, Zwiebeln und Paprika",
+        vegetarian: true,
+      },
+      {
+        name: "Pizza Kalimera",
+        description: "mit Spinat, Feta, Zwiebeln und Knoblauch",
+        vegetarian: true,
+      },
+      {
+        name: "Pizza Bauernsalat",
+        description: "mit Tomaten, Gurken, Feta, Oliven, Peperoni und Zwiebeln",
+        vegetarian: true,
+      },
+      {
+        name: "Pizza Chicken Barbecue",
+        description: "mit Hähnchen-Gyros, Mais, Paprika und Barbecuesauce",
+      },
+      {
+        name: "Pizza Bolognese",
+        description: "mit Bolognesesauce und Rinderhackfleisch",
+      },
+      { name: "Pizza Special", description: "mit Schinken, Salami und Paprika" },
+      {
+        name: "Pizza Capricciosa",
+        description: "mit Schinken, Salami und frischen Champignons",
+      },
+      { name: "Pizza Margherita", vegetarian: true },
+      { name: "Pizza Salami" },
+      { name: "Pizza Schinken", description: "mit Kochschinken" },
+      {
+        name: "Pizza Schinken-Funghi",
+        description: "mit Schinken und frischen Champignons",
+      },
+      {
+        name: "Pizza Funghi",
+        description: "mit frischen Champignons",
+        vegetarian: true,
+      },
+      { name: "Pizza Tonno", description: "mit Thunfisch" },
+      { name: "Pizza Hawaii", description: "mit Schinken und Ananas" },
+      { name: "Pizza Volcano", description: "mit scharfer Salami" },
+      {
+        name: "Pizza Spinat",
+        description: "mit Spinat und Knoblauch",
+        vegetarian: true,
+      },
+      {
+        name: "Vegetarische Pizza",
+        description: "mit frischen Champignons, Broccoli und Zwiebeln",
+        vegetarian: true,
+      },
+    ],
+  },
+  {
+    id: "schnitzel",
+    title: "Schnitzel",
+    intro: "Jedes Schnitzel gibt es pur oder mit Pommes frites.",
+    items: [
+      { name: "Schnitzel Wiener Art" },
+      {
+        name: "Schnitzel mit Metaxasauce",
+        description: "mit hausgemachter Metaxasauce",
+      },
+      { name: "Schnitzel Jäger Art", description: "mit Jägersauce" },
+      {
+        name: "Schnitzel Paprika Art",
+        description: "mit hausgemachter Paprikasauce mit Pilzen",
+      },
+    ],
+  },
+  {
+    id: "wurst",
+    title: "Wurst & Imbiss",
+    items: [
+      { name: "Currywurst" },
+      { name: "Bratwurst" },
+      { name: "Jägerwurst" },
+      { name: "Paprikawurst" },
+      { name: "Frikadelle", homemade: true },
+      { name: "Chicken Nuggets" },
+      { name: "Pommes frites", vegetarian: true },
+      { name: "Frittierte Kartoffelscheiben", vegetarian: true },
+    ],
+  },
+  {
+    id: "pasta",
+    title: "Pasta",
+    items: [
+      { name: "Spaghetti Napoli", vegetarian: true },
+      { name: "Spaghetti Bolognese" },
+      { name: "Spaghetti mit Hähnchen-Gyros, Metaxasauce und Gouda" },
+      { name: "Überbackene Spaghetti mit Bolognese und Gouda" },
+      { name: "Überbackene Spaghetti mit Hähnchen-Gyros, Metaxasauce und Gouda" },
+      { name: "Überbackene Spaghetti mit Kochschinken, Metaxasauce und Gouda" },
+    ],
+  },
+  {
+    id: "fisch",
+    title: "Fisch",
+    items: [
+      { name: "Calamaris" },
+      { name: "Calamaris mit Salat und Tzatziki" },
+    ],
+  },
+  {
+    id: "vegetarisch",
+    title: "Vegetarisch",
+    intro:
+      "Dazu kommen unsere fleischlosen Pizzen, Salate und Beilagen. Vegane Wünsche? Sprechen Sie uns an.",
+    items: [
+      { name: "Gemüsefrikadelle", vegetarian: true },
+      { name: "Gemüsefrikadelle Pita", vegetarian: true },
+      {
+        name: "Curry-Gemüsefrikadelle mit Pommes frites",
+        vegetarian: true,
+      },
+    ],
+  },
+  {
+    id: "salate",
+    title: "Salate",
+    items: [
+      { name: "Krautsalat", vegetarian: true, homemade: true },
+      { name: "Gemischter Salat", vegetarian: true },
+      { name: "Tomaten mit Gurken", vegetarian: true },
+      { name: "Gyros-Salat" },
+      { name: "Hähnchen-Salat" },
+      { name: "Thunfisch-Salat" },
+      { name: "Mais-Salat", vegetarian: true },
+      {
+        name: "Salate aus der Theke",
+        description:
+          "Gurken-, Bohnen-, Kartoffel-, Nudel-, Farmer-, Möhren- und Kidneybohnensalat",
+        vegetarian: true,
+      },
+    ],
+  },
+  {
+    id: "beilagen",
+    title: "Beilagen & Saucen",
+    items: [
+      { name: "Tzatziki", vegetarian: true, homemade: true },
+      { name: "Feta", vegetarian: true },
+      {
+        name: "Weinblätter",
+        description: "gefüllt mit Reis, 6 Stück",
+        vegetarian: true,
+      },
+      { name: "Tomatenreis", vegetarian: true },
+      { name: "Pita-Brot", vegetarian: true },
+      { name: "Metaxasauce", homemade: true },
+      { name: "Paprikasauce mit Pilzen", homemade: true },
+      {
+        name: "Weitere Saucen",
+        description: "Jägersauce, Currysauce, Joppiesauce, Ketchup, Mayonnaise",
+      },
+    ],
+  },
+  {
+    id: "kinder",
+    title: "Für Kinder",
+    items: [
+      { name: "Gyros Box mit Pommes frites" },
+      {
+        name: "Chicken Nugget Box",
+        description: "5 Chicken Nuggets mit Pommes frites",
+      },
+    ],
+  },
+];
+
+export const drinks: MenuCategory[] = [
+  {
+    id: "bier",
+    title: "Bier",
+    intro: "An der Theke frisch gezapft, dazu eine Auswahl aus der Flasche.",
+    items: [
+      { name: "Kölsch vom Fass" },
+      { name: "Pils vom Fass" },
+      { name: "Weizenbier" },
+      { name: "Mythos", description: "griechisches Lagerbier" },
+      { name: "Malzbier und Fassbrause" },
+    ],
+  },
+  {
+    id: "wein-spirituosen",
+    title: "Wein & Spirituosen",
+    items: [
+      { name: "Rot- und Weißwein" },
+      { name: "Retsina", description: "geharzter griechischer Weißwein" },
+      { name: "Kurze und Spirituosen" },
+      { name: "Klassische Longdrinks" },
+    ],
+  },
+  {
+    id: "alkoholfrei",
+    title: "Alkoholfrei",
+    items: [
+      { name: "Cola, Limonade und Bitter Lemon" },
+      { name: "Säfte und Schorlen" },
+      { name: "Eistee" },
+      { name: "Mineralwasser", description: "still oder spritzig" },
+    ],
+  },
+  {
+    id: "heiss",
+    title: "Heißgetränke",
+    items: [{ name: "Kaffee" }, { name: "Espresso" }],
+  },
+];
+
+export const menuGroups: MenuGroup[] = [
+  { id: "speisen", title: "Speisen", categories: food },
+  { id: "getraenke", title: "Getränke", categories: drinks },
+];
+
+/** Auswahl für die Startseite. */
+export const highlights: MenuItem[] = [
+  {
+    name: "Gyros Pita",
+    description: "Krautsalat, Zwiebeln und Tzatziki in der Teigtasche",
+  },
+  {
+    name: "Gyros Komplett",
+    description: "Pommes frites, Tzatziki und Krautsalat",
+  },
+  {
+    name: "Gyros überbacken",
+    description: "mit Feta und hausgemachter Metaxasauce",
+  },
+  {
+    name: "Pizza Gyros Spezial",
+    description: "Gyros, Feta, Peperoni und Zwiebeln",
+  },
+  { name: "Schnitzel Wiener Art", description: "mit Pommes frites" },
+  { name: "Currywurst", description: "der Imbiss-Klassiker" },
+  { name: "Calamaris", description: "mit Salat und Tzatziki" },
+  {
+    name: "Gemüsefrikadelle Pita",
+    description: "die fleischlose Teigtasche",
+  },
+];
