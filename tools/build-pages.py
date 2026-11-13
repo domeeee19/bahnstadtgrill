@@ -137,13 +137,15 @@ datenschutz = f"""<div class="prose">
 <h2>Verantwortlicher</h2>
 <p>Bahnstadtgrill Opladen, {todo(L['owner'], 'Name des Inhabers')}, Lützenkirchener Straße 12, 51379 Leverkusen. Telefon <a href="tel:+49217180154">02171 80154</a>, E-Mail <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a>.</p>
 <h2>Kurz gesagt</h2>
-<p>Diese Website setzt keine Cookies, nutzt kein Tracking und lädt beim Aufruf nichts von Google oder anderen Drittanbietern. Schriften und Bilder liegen auf demselben Server wie die Seite.</p>
+<p>Diese Website setzt keine Cookies, nutzt kein Tracking und lädt beim Aufruf nichts von Google oder anderen Drittanbietern. Schriften und Bilder liegen auf demselben Server wie die Seite. Google Maps wird nur nach Ihrem Klick geladen (siehe unten).</p>
 <h2>Hosting</h2>
 <p>Die Website wird gehostet bei: {todo(L['host'], 'Name und Anschrift des Hosting-Anbieters, ggf. Hinweis auf Auftragsverarbeitung und Drittlandübermittlung')}. Beim Aufruf verarbeitet der Anbieter technisch notwendige Daten (IP-Adresse, Zeitpunkt, aufgerufene Seite, Browser), um die Seite auszuliefern und abzusichern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
 <h2>Kontakt per Telefon oder E-Mail</h2>
 <p>Wenn Sie uns anrufen oder schreiben, verarbeiten wir Ihre Angaben, um Ihr Anliegen zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Unser E-Mail-Postfach wird von Google (Gmail) bereitgestellt; dabei können Daten auch außerhalb der EU verarbeitet werden.</p>
 <h2>Links zu anderen Anbietern</h2>
-<p>„Route planen“ öffnet die Suche von OpenStreetMap, der Facebook-Link unsere Facebook-Seite. Daten gehen erst an diese Anbieter, wenn Sie den Link anklicken. Dort gelten deren Datenschutzbestimmungen.</p>
+<p>„Route planen“ öffnet die Routenplanung von Google Maps, der Facebook-Link unsere Facebook-Seite. Daten gehen erst an diese Anbieter, wenn Sie den Link anklicken. Dort gelten deren Datenschutzbestimmungen.</p>
+<h2 id="google-maps">Google Maps</h2>
+<p>Im Bereich „Anfahrt“ können Sie eine Karte von Google Maps einblenden. Sie wird erst geladen, wenn Sie auf „Google Maps laden“ klicken; vorher werden keine Daten an Google übertragen. Nach dem Klick stellt Ihr Browser eine Verbindung zu Servern der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, her. Google erhält dabei unter anderem Ihre IP-Adresse und kann Cookies setzen; eine Übermittlung in die USA ist möglich. Rechtsgrundlage ist Ihre Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Sie gilt nur für den jeweiligen Seitenaufruf. Mehr dazu in der <a href="https://policies.google.com/privacy?hl=de" rel="noopener">Datenschutzerklärung von Google</a>.</p>
 <h2>Ihre Rechte</h2>
 <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO). Eine Nachricht an <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a> genügt. Beschweren können Sie sich bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, Kavalleriestraße 2–4, 40213 Düsseldorf.</p>
 <h2>Stand</h2>

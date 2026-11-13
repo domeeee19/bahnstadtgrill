@@ -106,7 +106,7 @@ a { color: inherit; }
 .mobile-menu p { margin-top: 40px; color: var(--sky); }
 
 /* ---------------------------------------------------------------- Hero */
-.hero { position: relative; min-height: 100svh; background: radial-gradient(1200px 700px at 78% 30%, #1b3a8f 0%, transparent 60%), radial-gradient(900px 600px at 10% 90%, #2a1a5a33 0%, transparent 60%), var(--night); color: var(--cream); overflow: hidden; padding: 150px 0 110px; isolation: isolate; }
+.hero { position: relative; min-height: 100svh; background: radial-gradient(1200px 700px at 78% 30%, #1b3a8f 0%, transparent 60%), radial-gradient(900px 600px at 10% 90%, #2a1a5a33 0%, transparent 60%), var(--night); color: var(--cream); overflow: hidden; padding: 150px 0 210px; isolation: isolate; }
 .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .awning-top { position: absolute; inset: 0 0 auto; height: 26px; z-index: 2; background: repeating-linear-gradient(90deg, var(--blue) 0 44px, var(--paper) 44px 88px); -webkit-mask: radial-gradient(22px 22px at 22px 4px, #000 98%, transparent) 0 0 / 44px 26px repeat-x; mask: radial-gradient(22px 22px at 22px 4px, #000 98%, transparent) 0 0 / 44px 26px repeat-x; animation: awning 18s linear infinite; }
 @keyframes awning { to { background-position: 88px 0; } }
@@ -129,15 +129,15 @@ a { color: inherit; }
 .hero__facts svg { width: 16px; height: 16px; color: var(--amber); }
 
 .hero__visual { position: relative; justify-self: end; width: min(100%, 520px); opacity: 0; animation: fade 1.2s .3s var(--ease) forwards; }
-.arch { position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 26px 26px; overflow: hidden; border: 6px solid var(--paper); box-shadow: 0 0 0 6px var(--blue), 0 40px 80px -30px rgba(0, 0, 0, .7); transform: rotate(2deg); }
-.arch img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%; transform: scale(1.12); transition: transform 1.4s var(--ease); will-change: transform; }
-.hero__visual:hover .arch img { transform: scale(1.18); }
-.sticker { position: absolute; left: -38px; top: 12%; width: 128px; height: 128px; border-radius: 50%; background: var(--amber); color: var(--night); display: grid; place-items: center; text-align: center; font: 400 22px/1 var(--display); text-transform: uppercase; transform: rotate(-14deg); box-shadow: 0 18px 30px -12px rgba(0, 0, 0, .55); animation: wobble 6s ease-in-out infinite; }
+.arch { position: relative; aspect-ratio: 1 / 1.04; border-radius: 999px 999px 26px 26px; overflow: hidden; border: 6px solid var(--paper); box-shadow: 0 0 0 6px var(--blue), 0 40px 80px -30px rgba(0, 0, 0, .7); transform: rotate(2deg); }
+.arch img { width: 100%; height: 100%; object-fit: cover; object-position: 0% 40%; transform: scale(1.04); transform-origin: 30% 50%; transition: transform 1.4s var(--ease); will-change: transform; }
+.hero__visual:hover .arch img { transform: scale(1.08); }
+.sticker { position: absolute; right: -34px; top: 4%; width: 128px; height: 128px; border-radius: 50%; background: var(--amber); color: var(--night); display: grid; place-items: center; text-align: center; font: 400 22px/1 var(--display); text-transform: uppercase; transform: rotate(-14deg); box-shadow: 0 18px 30px -12px rgba(0, 0, 0, .55); animation: wobble 6s ease-in-out infinite; }
 .sticker small { display: block; font: 700 10px/1.2 var(--text); letter-spacing: .12em; margin-top: 4px; }
 @keyframes wobble { 50% { transform: rotate(-6deg) scale(1.04); } }
 
 /* the departure board */
-.board { text-decoration: none; position: absolute; right: -24px; bottom: -64px; width: min(110%, 430px); background: #050b1c; border-radius: 18px; padding: 16px 18px 14px; border: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .8); font-family: var(--text); }
+.board { text-decoration: none; position: absolute; left: -110px; bottom: -170px; width: min(86%, 380px); background: #050b1c; border-radius: 18px; padding: 16px 18px 14px; border: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .8); font-family: var(--text); }
 .board__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .board__head b { font: 400 18px/1 var(--display); letter-spacing: .08em; color: var(--cream); text-transform: uppercase; }
 .board__row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 9px 0; border-top: 1px solid rgba(255, 255, 255, .07); color: var(--cream); text-decoration: none; }
@@ -344,7 +344,8 @@ section { position: relative; }
   .menu-toggle { display: block; }
   .hero__grid, .garden__grid, .visit__grid { grid-template-columns: 1fr; }
   .hero__visual { justify-self: center; margin: 30px 0 70px; width: min(86%, 440px); }
-  .board { right: -6%; }
+  .board { left: -6%; bottom: -60px; }
+  .hero { padding-bottom: 150px; }
   .score, .theke__cards { grid-column: 1 / -1; }
   .menu__panel { grid-template-columns: 1fr; }
 }
@@ -383,19 +384,19 @@ section { position: relative; }
 .card-grid .dish__name { font-size: clamp(20px, 1.7vw, 26px); line-height: 1.05; }
 .card-grid .dish { padding: 16px 0; }
 
-/* ---------------------------------------------------------------- Handy: der Patron zuerst */
-@media (max-width: 720px) {
+/* ---------------------------------------------------------------- Handy und Tablet: der Patron zuerst */
+@media (max-width: 1080px) {
   .hero { padding: 0 0 56px; }
   .hero__grid { gap: 0; }
   .hero__visual { display: contents; }
-  .arch { order: -1; position: relative; width: auto; height: 66svh; min-height: 440px; max-height: 620px; aspect-ratio: auto; margin: 0 calc(-1 * var(--gut)) 28px; border: 0; border-radius: 0 0 34px 34px; box-shadow: none; transform: none; }
+  .arch { order: -1; position: relative; width: auto; height: 52svh; min-height: 400px; max-height: 520px; aspect-ratio: auto; margin: 0 calc(-1 * var(--gut)) 28px; border: 0; border-radius: 0 0 34px 34px; box-shadow: none; transform: none; }
   .arch::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(8, 19, 46, .78) 0, rgba(8, 19, 46, 0) 32%), linear-gradient(transparent 70%, rgba(8, 19, 46, .55)); }
-  .arch img { object-position: 62% 30%; transform: none !important; }
-  .sticker { left: auto; right: 14px; top: calc(min(max(66svh, 440px), 620px) - 82px); width: 104px; height: 104px; font-size: 18px; z-index: 3; }
+  .arch img { object-position: 3% 30%; transform: none !important; }
+  .sticker { left: auto; right: 14px; top: calc(min(max(52svh, 400px), 520px) - 82px); width: 104px; height: 104px; font-size: 18px; z-index: 3; }
   .board { order: 2; position: relative; right: auto; bottom: auto; width: 100%; margin-top: 36px; background: var(--night-2); border-color: rgba(255, 255, 255, .16); }
-  .hero__title { font-size: clamp(54px, 16vw, 76px); margin-top: 14px; }
+  .hero__title { font-size: clamp(54px, 13vw, 110px); margin-top: 14px; }
   .hero__greet { font-size: 21px; margin-bottom: 24px; }
-  .hero__actions .btn { flex: 1 1 100%; justify-content: center; }
+  .hero__actions .btn { flex: 1 1 260px; justify-content: center; }
   .hero__facts { margin-top: 26px; }
   .scroll-hint { display: none; }
   .flap { width: 18px; height: 26px; font-size: 16px; }
@@ -403,3 +404,14 @@ section { position: relative; }
   .signs { flex-wrap: wrap; gap: 14px; }
   .sign { font-size: 30px; padding: 12px 20px; }
 }
+
+/* Bayer 04 im Vereinsstil (ohne Wappen) */
+.score__team--b04 { display: inline-flex; align-items: center; justify-content: center; gap: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 24px -10px rgba(227, 34, 33, .6); }
+.score__team--b04 span { background: #e32221; color: #fff; padding: 8px 10px 6px 12px; }
+.score__team--b04 b { font-weight: 400; background: #000; color: #fff; padding: 8px 12px 6px 10px; }
+
+/* Google Maps erst nach Klick */
+.mapcard__consent { position: absolute; left: 50%; top: 18px; translate: -50% 0; width: min(88%, 340px); display: grid; justify-items: center; gap: 10px; padding: 16px; border-radius: 18px; background: rgba(5, 11, 28, .82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-align: center; }
+.mapcard__consent p { margin: 0; font-size: 13px; line-height: 1.45; color: rgba(247, 240, 227, .75); }
+.mapcard__consent a { color: var(--amber); }
+.mapcard iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }

@@ -220,6 +220,20 @@
     }, { passive: true });
   }
 
+  /* ---------------------------------------------------------- Google Maps nach Klick */
+  const mapLoad = $('[data-map-load]');
+  if (mapLoad) mapLoad.addEventListener('click', () => {
+    const box = $('[data-map]');
+    const f = document.createElement('iframe');
+    f.title = 'Google Maps: Bahnstadt Grill, Lützenkirchener Straße 12, Leverkusen';
+    f.src = 'https://www.google.com/maps?q=Bahnstadt%20Grill%2C%20L%C3%BCtzenkirchener%20Stra%C3%9Fe%2012%2C%2051379%20Leverkusen&hl=de&z=16&output=embed';
+    f.loading = 'lazy';
+    f.referrerPolicy = 'no-referrer-when-downgrade';
+    f.allowFullscreen = true;
+    box.append(f);
+    $('[data-map-consent]').remove();
+  });
+
   /* ---------------------------------------------------------- Laufband nahtlos */
   const ticker = $('[data-ticker]');
   if (ticker) ticker.append(ticker.firstElementChild.cloneNode(true));
