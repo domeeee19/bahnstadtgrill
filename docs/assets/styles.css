@@ -323,7 +323,7 @@ section { position: relative; }
 
 /* ---------------------------------------------------------------- Subpages */
 .page-hero { background: var(--night); color: var(--cream); padding: 160px 0 90px; position: relative; overflow: hidden; }
-.page-hero h1 { font-size: clamp(64px, 11vw, 170px); }
+.page-hero h1 { font-size: clamp(40px, 11vw, 170px); overflow-wrap: anywhere; hyphens: auto; }
 .page-hero p { max-width: 52ch; color: rgba(247, 240, 227, .8); }
 .page-body { padding: 80px 0 120px; background: var(--paper); }
 .prose { max-width: 70ch; }
@@ -393,7 +393,7 @@ section { position: relative; }
   .arch::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(8, 19, 46, .78) 0, rgba(8, 19, 46, 0) 32%), linear-gradient(transparent 70%, rgba(8, 19, 46, .55)); }
   .arch img { object-position: 3% 30%; transform: none !important; }
   .sticker { left: auto; right: 14px; top: calc(min(max(52svh, 400px), 520px) - 82px); width: 104px; height: 104px; font-size: 18px; z-index: 3; }
-  .board { order: 2; position: relative; right: auto; bottom: auto; width: 100%; margin-top: 36px; background: var(--night-2); border-color: rgba(255, 255, 255, .16); }
+  .board { order: 2; position: relative; left: auto; right: auto; bottom: auto; width: 100%; max-width: 560px; justify-self: center; margin-top: 36px; background: var(--night-2); border-color: rgba(255, 255, 255, .16); }
   .hero__title { font-size: clamp(54px, 13vw, 110px); margin-top: 14px; }
   .hero__greet { font-size: 21px; margin-bottom: 24px; }
   .hero__actions .btn { flex: 1 1 260px; justify-content: center; }
@@ -415,3 +415,35 @@ section { position: relative; }
 .mapcard__consent p { margin: 0; font-size: 13px; line-height: 1.45; color: rgba(247, 240, 227, .75); }
 .mapcard__consent a { color: var(--amber); }
 .mapcard iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Bayer 04 auf schmalen Bildschirmen */
+@media (max-width: 720px) {
+  .score { padding: 26px 22px; }
+  .score__teams { grid-template-columns: auto auto auto; justify-content: space-between; gap: 10px; }
+  .score__team { font-size: 26px; }
+  .score__team--b04 span { padding: 7px 7px 5px 9px; }
+  .score__team--b04 b { padding: 7px 9px 5px 7px; }
+  .score__vs { font-size: 46px; }
+}
+
+/* Kölsch & Pils: frisch gezapft */
+.beer { background: linear-gradient(180deg, #ffd35c 0%, #f7a823 42%, #e08300 100%); color: var(--night); min-height: 280px; }
+.beer::after { background: radial-gradient(120% 90% at 0% 100%, rgba(8, 19, 46, .82) 0%, rgba(8, 19, 46, .5) 40%, transparent 70%); }
+.beer h3, .beer p { text-shadow: 0 2px 12px rgba(8, 19, 46, .5); }
+.beer__foam { z-index: 1; }
+.beer h3, .beer p { color: var(--cream); position: relative; }
+.beer__glass { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.beer__foam { position: absolute; left: -5%; right: -5%; top: -22px; height: 64px; background: radial-gradient(circle at 10px 30px, #fffaf1 22px, transparent 23px) 0 0 / 46px 64px repeat-x, linear-gradient(#fffaf1 0 26px, transparent 26px); filter: drop-shadow(0 6px 6px rgba(150, 80, 0, .25)); animation: foam 7s ease-in-out infinite alternate; }
+@keyframes foam { to { transform: translateX(-23px) translateY(3px); } }
+.beer__glass i { position: absolute; bottom: -20px; width: var(--s, 8px); height: var(--s, 8px); border-radius: 50%; background: rgba(255, 250, 241, .55); box-shadow: inset -1px -1px 0 rgba(255, 255, 255, .5); animation: bubble var(--t, 6s) linear infinite; animation-delay: var(--dl, 0s); }
+@keyframes bubble { to { transform: translate(var(--x, 6px), -340px); opacity: 0; } }
+.beer__glass i:nth-of-type(1) { left: 52%; --s: 7px; --t: 5.5s; }
+.beer__glass i:nth-of-type(2) { left: 60%; --s: 11px; --t: 7s; --dl: -2s; --x: -8px; }
+.beer__glass i:nth-of-type(3) { left: 67%; --s: 6px; --t: 4.8s; --dl: -1s; }
+.beer__glass i:nth-of-type(4) { left: 73%; --s: 9px; --t: 6.4s; --dl: -3.5s; --x: 10px; }
+.beer__glass i:nth-of-type(5) { left: 79%; --s: 5px; --t: 5s; --dl: -4s; }
+.beer__glass i:nth-of-type(6) { left: 84%; --s: 12px; --t: 7.6s; --dl: -.5s; --x: -6px; }
+.beer__glass i:nth-of-type(7) { left: 89%; --s: 7px; --t: 5.8s; --dl: -2.6s; }
+.beer__glass i:nth-of-type(8) { left: 94%; --s: 9px; --t: 6.8s; --dl: -5s; --x: 8px; }
+.beer__glass i:nth-of-type(9) { left: 44%; --s: 6px; --t: 6.2s; --dl: -1.6s; }
+.beer__glass i:nth-of-type(10) { left: 36%; --s: 8px; --t: 7.2s; --dl: -4.4s; --x: 6px; }
