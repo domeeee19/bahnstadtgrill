@@ -483,3 +483,48 @@ section { position: relative; }
 
 /* Umlaute in mehrzeiligen Überschriften brauchen Luft */
 .sec__title { line-height: 1.1; }
+
+/* ---------------------------------------------------------------- Biergarten: Aktionen und Reservierung */
+.garden__actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.garden .btn--ghost { color: var(--paper); }
+.garden .btn--ghost:hover { color: var(--blue); }
+.booking { background: var(--cream); }
+.booking__grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px, 6vw, 90px); align-items: start; }
+.booking__facts { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 14px; color: var(--ink-soft); }
+.booking__facts li { padding-left: 22px; position: relative; }
+.booking__facts li::before { content: ""; position: absolute; left: 0; top: .55em; width: 9px; height: 9px; border-radius: 50%; background: var(--amber); }
+.booking__facts b { color: var(--ink); }
+.booking__facts a { color: var(--blue); font-weight: 700; }
+.booking__form { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 16px; background: var(--paper); border-radius: 28px; padding: 30px; box-shadow: 0 30px 60px -34px rgba(11, 20, 48, .45); border: 1px solid rgba(11, 20, 48, .08); }
+.booking__form::before, .booking__form::after { content: ""; position: absolute; top: 74px; width: 26px; height: 26px; border-radius: 50%; background: var(--cream); }
+.booking__form::before { left: -13px; } .booking__form::after { right: -13px; }
+.ticket__head { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; padding-bottom: 18px; margin-bottom: 4px; border-bottom: 2px dashed rgba(11, 20, 48, .18); font: 400 22px/1 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--blue); }
+.ticket__head span:last-child { color: var(--ink-soft); font-size: 15px; align-self: center; font-family: var(--text); font-weight: 700; letter-spacing: .08em; }
+.field { display: grid; gap: 6px; }
+.field--full { grid-column: 1 / -1; }
+.field label { font-weight: 700; font-size: 14px; }
+.field label small { font-weight: 400; color: var(--ink-soft); }
+.field input, .field select, .field textarea { width: 100%; min-height: 50px; padding: 12px 14px; border-radius: 14px; border: 2px solid rgba(11, 20, 48, .16); background: #fff; color: var(--ink); font: 400 16px/1.4 var(--text); transition: border-color .2s, box-shadow .2s; }
+.field textarea { resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(27, 79, 196, .15); }
+.field [aria-invalid="true"] { border-color: var(--tomato); }
+.field__error { margin: 0; color: #c2321b; font-size: 14px; font-weight: 500; }
+.booking__submit { display: grid; gap: 12px; margin-top: 6px; }
+.booking__submit .btn { justify-self: start; }
+.booking__hint { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.booking__hint a { color: var(--blue); }
+.booking__status { grid-column: 1 / -1; margin: 0; font-weight: 700; color: var(--blue-deep); }
+.booking__status:empty { display: none; }
+.menu-switch { margin-bottom: 50px; }
+.menu-switch .tab { display: inline-flex; align-items: center; text-decoration: none; }
+.menu-switch .tab[aria-current="page"] { background: var(--ink); color: var(--paper); }
+.menu-pending { display: grid; gap: 24px; justify-items: start; max-width: 60ch; padding: 40px; border-radius: 26px; background: var(--cream); }
+@media (max-width: 1080px) { .booking__grid { grid-template-columns: 1fr; } }
+@media (max-width: 720px) {
+  .booking__form { grid-template-columns: 1fr 1fr; padding: 22px; }
+  .booking__form .f-date, .booking__form .f-phone, .booking__form .f-email { grid-column: 1 / -1; }
+  .booking__submit .btn { justify-self: stretch; justify-content: center; }
+  .ticket__head span:last-child { display: none; }
+}
+.booking__form .f-email { grid-column: span 2; }
+@media (max-width: 720px) { .booking__form .f-email { grid-column: 1 / -1; } }

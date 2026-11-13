@@ -13,7 +13,8 @@ Die fertige Website liegt als statisches HTML in `docs/`. Es gibt keinen Build-S
 ```
 docs/
   index.html           Startseite
-  speisekarte.html     ganze Speisekarte          ┐
+  speisekarte.html     Speisekarte Imbiss         ┐
+  biergarten-karte.html Biergarten-Karte          │
   impressum.html       Impressum                  │ erzeugt von tools/build-pages.py
   datenschutz.html     Datenschutzerklärung       │ (Kopf- und Fußzeile aus index.html)
   credits.html         Bildnachweise              ┘
@@ -24,14 +25,15 @@ docs/
   assets/fonts/        Anton, DM Sans, Fraunces – lokal (keine Verbindung zu Google Fonts)
 tools/
   build-pages.py       erzeugt die Unterseiten
-  menu.json            Speisekarte (Preise: Feld "price", z. B. "9,50")
+  menu.json            Speisekarte Imbiss (Preise: Feld "price", z. B. "9,50")
+  biergarten-karte.json Biergarten-Karte (gleiches Format; leer = Hinweis „wird neu geschrieben“)
   legal.json           Inhaber, USt-ID, Hoster, Stand
 ```
 
 ## Inhalte ändern
 
 - **Startseite:** direkt in `docs/index.html`.
-- **Speisekarte, Impressum, Datenschutz:** `tools/menu.json` bzw. `tools/legal.json` bearbeiten, dann ausführen:
+- **Speisekarten, Impressum, Datenschutz:** `tools/menu.json`, `tools/biergarten-karte.json` bzw. `tools/legal.json` bearbeiten, dann ausführen:
 
 ```bash
 python3 tools/build-pages.py
@@ -53,3 +55,9 @@ Danach http://localhost:8000 öffnen.
 1. Repository auf **public** stellen (Settings → General → Danger Zone → Change visibility).
 2. Settings → **Pages** → Source „Deploy from a branch“ → Branch `claude/fancy-redesign`, Ordner `/docs` → Save.
 3. Nach ein bis zwei Minuten ist die Seite unter https://domeeee19.github.io/bahnstadtgrill/ erreichbar.
+
+## Tischreservierung Biergarten
+
+Das Formular im Abschnitt `#reservieren` prüft die Eingaben (kein Sonntag, kein vergangenes Datum, 17–21 Uhr) und öffnet dann das E-Mail-Programm des Gastes mit einer fertigen Anfrage an bahnstadtgrill@gmail.com. Es läuft ohne Server, also auch auf GitHub Pages.
+
+Soll die Anfrage ohne E-Mail-Programm ankommen, einen Formular-Dienst (z. B. Formspree) anlegen und dessen Adresse in `docs/index.html` bei `data-endpoint=""` am Formular eintragen. Dann sendet die Seite direkt und zeigt eine Bestätigung; die Datenschutzerklärung muss diesen Dienst dann nennen.

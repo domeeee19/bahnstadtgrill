@@ -72,41 +72,68 @@ def page(slug, title, description, h1, lead, body, robots="index,follow"):
 """
 
 
-# ---------------------------------------------------------------- Speisekarte
-menu = json.loads((ROOT / "tools" / "menu.json").read_text(encoding="utf-8"))
-groups_html = []
-for group in menu["groups"]:
-    cats = []
-    for cat in group["categories"]:
-        rows = []
-        for i, item in enumerate(cat["items"]):
-            tag = ""
-            if item.get("homemade"):
-                tag = '<span class="dish__tag">hausgemacht</span>'
-            elif item.get("vegetarian"):
-                tag = '<span class="dish__tag dish__tag--veg">veggie</span>'
-            price = f' · {html.escape(item["price"])} €' if item.get("price") else ""
-            desc = item.get("description", "")
-            rows.append(
-                f'<div class="dish" style="--i:{i}"><span class="dish__no">{i+1:02d}</span>'
-                f'<span class="dish__name">{html.escape(item["name"])}</span>{tag or "<span></span>"}'
-                + (f'<p class="dish__desc">{html.escape(desc)}{price}</p>' if desc or price else "")
-                + "</div>"
-            )
-        intro = f'<p>{html.escape(cat["intro"])}</p>' if cat.get("intro") else ""
-        cats.append(f'<div id="{cat["id"]}"><h2>{html.escape(cat["title"])}</h2>{intro}{"".join(rows)}</div>')
-    groups_html.append(f'<h2 class="menu-group-title" id="{group["id"]}">{html.escape(group["title"])}</h2><div class="card-grid">{"".join(cats)}</div>')
-menu_body = "\n".join(groups_html) + f"""
-<p class="lead" style="margin-top:60px;max-width:60ch">{menu['note']}</p>"""
+# ---------------------------------------------------------------- Speisekarten
+def menu_switch(active):
+    tabs = [("speisekarte.html", "Imbiss & Gastraum"), ("biergarten-karte.html", "Biergarten")]
+    links = "".join(
+        f'<a class="tab" href="{href}"' + (' aria-current="page"' if href == active else "") + f">{label}</a>"
+        for href, label in tabs
+    )
+    return f'<nav class="tabs menu-switch" aria-label="Karten">{links}</nav>'
 
+
+def render_menu(data):
+    groups_html = []
+    for group in data["groups"]:
+        cats = []
+        for cat in group["categories"]:
+            rows = []
+            for i, item in enumerate(cat["items"]):
+                tag = ""
+                if item.get("homemade"):
+                    tag = '<span class="dish__tag">hausgemacht</span>'
+                elif item.get("vegetarian"):
+                    tag = '<span class="dish__tag dish__tag--veg">veggie</span>'
+                price = f' · {html.escape(item["price"])} €' if item.get("price") else ""
+                desc = item.get("description", "")
+                rows.append(
+                    f'<div class="dish" style="--i:{i}"><span class="dish__no">{i+1:02d}</span>'
+                    f'<span class="dish__name">{html.escape(item["name"])}</span>{tag or "<span></span>"}'
+                    + (f'<p class="dish__desc">{html.escape(desc)}{price}</p>' if desc or price else "")
+                    + "</div>"
+                )
+            intro = f'<p>{html.escape(cat["intro"])}</p>' if cat.get("intro") else ""
+            cats.append(f'<div id="{cat["id"]}"><h2>{html.escape(cat["title"])}</h2>{intro}{"".join(rows)}</div>')
+        if cats:
+            groups_html.append(f'<h2 class="menu-group-title" id="{group["id"]}">{html.escape(group["title"])}</h2><div class="card-grid">{"".join(cats)}</div>')
+    if not groups_html:
+        return f'<div class="menu-pending"><p class="lead">{html.escape(data["pending"])}</p><a class="btn btn--blue" href="index.html#reservieren">Tisch im Biergarten reservieren</a></div>'
+    return "\n".join(groups_html) + f"""
+<p class="lead" style="margin-top:60px;max-width:60ch">{data['note']}</p>"""
+
+
+menu = json.loads((ROOT / "tools" / "menu.json").read_text(encoding="utf-8"))
 (DOCS / "speisekarte.html").write_text(
     page(
         "speisekarte.html",
         "Speisekarte: Gyros, Pizza und Schnitzel | Bahnstadtgrill Opladen",
         "Die Speisekarte des Bahnstadtgrill in Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte und kühle Getränke.",
         "Die Karte",
-        "Alles gibt es zum Hieressen, im Biergarten und zum Mitnehmen. Tzatziki und Krautsalat machen wir selbst.",
-        menu_body,
+        "Imbiss und Gastraum, Montag bis Samstag 11:30 bis 21 Uhr. Alles auch zum Mitnehmen. Tzatziki und Krautsalat machen wir selbst.",
+        menu_switch("speisekarte.html") + render_menu(menu),
+    ),
+    encoding="utf-8",
+)
+
+garden = json.loads((ROOT / "tools" / "biergarten-karte.json").read_text(encoding="utf-8"))
+(DOCS / "biergarten-karte.html").write_text(
+    page(
+        "biergarten-karte.html",
+        "Biergarten-Karte | Bahnstadtgrill Opladen",
+        "Die Karte des Bahnstadt Biergartens in Leverkusen-Opladen, Montag bis Samstag von 17 bis 22 Uhr.",
+        "Biergarten",
+        "Eigene Karte für draußen, Montag bis Samstag von 17 bis 22 Uhr.",
+        menu_switch("biergarten-karte.html") + render_menu(garden),
     ),
     encoding="utf-8",
 )
@@ -140,6 +167,8 @@ datenschutz = f"""<div class="prose">
 <p>Diese Website setzt keine Cookies, nutzt kein Tracking und lädt beim Aufruf nichts von Google oder anderen Drittanbietern. Schriften und Bilder liegen auf demselben Server wie die Seite. Google Maps wird nur nach Ihrem Klick geladen (siehe unten).</p>
 <h2>Hosting</h2>
 <p>Die Website wird gehostet bei: {todo(L['host'], 'Name und Anschrift des Hosting-Anbieters, ggf. Hinweis auf Auftragsverarbeitung und Drittlandübermittlung')}. Beim Aufruf verarbeitet der Anbieter technisch notwendige Daten (IP-Adresse, Zeitpunkt, aufgerufene Seite, Browser), um die Seite auszuliefern und abzusichern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+<h2 id="reservierung">Tischreservierung</h2>
+<p>Wenn Sie über das Formular einen Tisch im Biergarten anfragen, verarbeiten wir Ihren Namen, Ihre Telefonnummer, auf Wunsch Ihre E-Mail-Adresse, Datum, Uhrzeit, Personenzahl und Ihre Nachricht, um die Reservierung zu bearbeiten (Art. 6 Abs. 1 lit. b DSGVO). Die Anfrage wird über Ihr eigenes E-Mail-Programm an uns geschickt; die Website selbst speichert nichts. Wir löschen die Angaben, sobald der Besuch vorbei ist und keine Aufbewahrungspflichten entgegenstehen.</p>
 <h2>Kontakt per Telefon oder E-Mail</h2>
 <p>Wenn Sie uns anrufen oder schreiben, verarbeiten wir Ihre Angaben, um Ihr Anliegen zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Unser E-Mail-Postfach wird von Google (Gmail) bereitgestellt; dabei können Daten auch außerhalb der EU verarbeitet werden.</p>
 <h2>Links zu anderen Anbietern</h2>
@@ -182,4 +211,4 @@ for own in legal.get("ownPhotos", []):
     ),
     encoding="utf-8",
 )
-print("geschrieben: speisekarte.html, impressum.html, datenschutz.html, credits.html")
+print("geschrieben: speisekarte.html, biergarten-karte.html, impressum.html, datenschutz.html, credits.html")

@@ -35,6 +35,7 @@
     <nav class="nav" aria-label="Hauptmenü">
       <a href="index.html#karte">Speisekarte</a>
       <a href="index.html#biergarten">Biergarten</a>
+      <a href="index.html#reservieren">Reservieren</a>
       <a href="index.html#theke">Dart & Treffpunkt</a>
       <a href="index.html#geschichte">Geschichte</a>
       <a href="index.html#besuch">Anfahrt</a>
@@ -46,6 +47,7 @@
 <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
   <a href="index.html#karte"><small>01</small>Speisekarte</a>
   <a href="index.html#biergarten"><small>02</small>Biergarten</a>
+  <a href="index.html#reservieren"><small>R</small>Tisch reservieren</a>
   <a href="index.html#theke"><small>03</small>Dart & Treffpunkt</a>
   <a href="index.html#geschichte"><small>04</small>Geschichte</a>
   <a href="index.html#besuch"><small>05</small>Anfahrt</a>
@@ -179,8 +181,12 @@
         <p class="kicker reveal" style="color:var(--amber)">Gleis 3 · Draußen</p>
         <h2 class="display sec__title reveal" id="garten-title">Biergarten <em>unter</em> der Markise</h2>
         <div class="garden__time reveal"><b>17–22</b><span>Uhr<br>Montag bis Samstag</span></div>
-        <p class="lead reveal">Rasen, Sonnendach, Laternen – und ein kühles Kölsch. Gyros und Pizza kommen direkt an den Tisch.</p>
+        <p class="lead reveal">Rasen, Sonnendach, Laternen – und ein kühles Kölsch. Draußen gibt es eine eigene Biergarten-Karte.</p>
         <p class="reveal">Der Biergarten erinnert an die Zeit, als nebenan noch das Bahnwerk lief und das Haus „Zur Schwelle“ hieß. Abends sitzt Stavros oft selbst draußen und erzählt eine Bahnstadt-Geschichte.</p>
+        <div class="garden__actions reveal">
+          <a class="btn" href="index.html#reservieren">Tisch reservieren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn--ghost" href="biergarten-karte.html">Biergarten-Karte</a>
+        </div>
       </div>
       <div class="collage">
         <!--GARDEN-PHOTOS-->
@@ -189,6 +195,46 @@
         <figure class="polaroid polaroid--c reveal" style="--d:.25s"><img src="assets/img/photo-f44471027-960.webp" width="960" height="720" alt="Grillspieße mit Pommes" loading="lazy"><figcaption>Vom Grill</figcaption></figure>
         <!--/GARDEN-PHOTOS-->
       </div>
+    </div>
+  </section>
+
+  <!-- RESERVIERUNG -->
+  <section class="sec booking" id="reservieren" aria-labelledby="res-title">
+    <div class="wrap booking__grid">
+      <div class="booking__intro">
+        <p class="kicker reveal" style="color:var(--blue)">Biergarten · Mo–Sa 17–22 Uhr</p>
+        <h2 class="display sec__title reveal" id="res-title">Tisch <em>im</em> Biergarten reservieren</h2>
+        <p class="lead reveal">Sagen Sie uns, wann Sie mit wie vielen Leuten kommen. Wir bestätigen Ihre Reservierung telefonisch oder per E-Mail.</p>
+        <ul class="booking__facts reveal">
+          <li><b>Ohne Reservierung?</b> Kein Problem – freie Tische gibt es auch spontan.</li>
+          <li><b>Heute noch?</b> Rufen Sie am besten direkt an: <a href="tel:+49217180154">02171 80154</a></li>
+          <li><b>Große Runde ab 12 Personen?</b> Bitte kurz telefonisch absprechen.</li>
+        </ul>
+      </div>
+
+      <form class="booking__form reveal" data-booking data-endpoint="" novalidate>
+        <div class="ticket__head" aria-hidden="true"><span>Reservierung</span><span>Gleis 3 · Biergarten</span></div>
+        <div class="field field--full"><label for="b-name">Name</label><input id="b-name" name="name" type="text" autocomplete="name" required><p class="field__error" hidden>Bitte geben Sie Ihren Namen an.</p></div>
+        <div class="field f-date"><label for="b-date">Datum</label><input id="b-date" name="datum" type="date" required><p class="field__error" hidden>Bitte wählen Sie einen Tag von Montag bis Samstag.</p></div>
+        <div class="field f-time"><label for="b-time">Uhrzeit</label>
+          <select id="b-time" name="uhrzeit" required>
+            <option value="">Bitte wählen</option>
+            <option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+          </select><p class="field__error" hidden>Bitte wählen Sie eine Uhrzeit.</p></div>
+        <div class="field f-guests"><label for="b-guests">Personen</label>
+          <select id="b-guests" name="personen" required>
+            <option value="">Bitte wählen</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option value="mehr als 12">mehr als 12</option>
+          </select><p class="field__error" hidden>Bitte geben Sie die Personenzahl an.</p></div>
+        <div class="field f-phone"><label for="b-phone">Telefon</label><input id="b-phone" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required><p class="field__error" hidden>Bitte geben Sie eine Telefonnummer für Rückfragen an.</p></div>
+        <div class="field f-email"><label for="b-email">E-Mail <small>(optional)</small></label><input id="b-email" name="email" type="email" autocomplete="email"><p class="field__error" hidden>Bitte prüfen Sie die E-Mail-Adresse.</p></div>
+        <div class="field field--full"><label for="b-note">Nachricht <small>(optional)</small></label><textarea id="b-note" name="nachricht" rows="3" placeholder="z. B. Geburtstag, Kinderstuhl, Tisch unter dem Sonnendach"></textarea></div>
+        <div class="field--full booking__submit">
+          <button class="btn btn--blue" type="submit">Reservierung anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="booking__hint">Die Anfrage öffnet Ihr E-Mail-Programm mit einer fertigen Nachricht an uns. Erst mit unserer Bestätigung ist der Tisch reserviert. <a href="datenschutz.html#reservierung">Datenschutz</a></p>
+        </div>
+        <p class="booking__status" role="status" data-booking-status></p>
+      </form>
     </div>
   </section>
 

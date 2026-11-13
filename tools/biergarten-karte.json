@@ -1,0 +1,16 @@
+{
+ "note": "Die Biergarten-Karte gilt im Biergarten, Montag bis Samstag von 17 bis 22 Uhr.",
+ "pending": "Die Biergarten-Karte wird gerade neu geschrieben. Was es heute draußen gibt, verrät Ihnen Stavros gern am Telefon: 02171 80154.",
+ "groups": [
+  {
+   "id": "biergarten-speisen",
+   "title": "Speisen",
+   "categories": []
+  },
+  {
+   "id": "biergarten-getraenke",
+   "title": "Getränke",
+   "categories": []
+  }
+ ]
+}

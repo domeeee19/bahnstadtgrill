@@ -234,6 +234,81 @@
     $('[data-map-consent]').remove();
   });
 
+  /* ---------------------------------------------------------- Tischreservierung Biergarten */
+  const booking = $('[data-booking]');
+  if (booking) {
+    const dateInput = $('#b-date', booking);
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    dateInput.min = iso(today);
+    const status = $('[data-booking-status]', booking);
+    const fail = (el, bad) => {
+      const err = el.parentElement.querySelector('.field__error');
+      el.toggleAttribute('aria-invalid', bad);
+      if (bad) el.setAttribute('aria-invalid', 'true');
+      if (err) { err.hidden = !bad; if (!err.id) err.id = el.id + '-err'; el.setAttribute('aria-describedby', err.id); }
+      return bad;
+    };
+    const check = () => {
+      const f = booking.elements;
+      const errors = [];
+      if (fail(f.name, f.name.value.trim().length < 2)) errors.push(f.name);
+      let badDate = !f.datum.value;
+      if (!badDate) {
+        const d = new Date(f.datum.value + 'T12:00');
+        badDate = d < today || d.getDay() === 0;
+      }
+      if (fail(f.datum, badDate)) errors.push(f.datum);
+      if (fail(f.uhrzeit, !f.uhrzeit.value)) errors.push(f.uhrzeit);
+      if (fail(f.personen, !f.personen.value)) errors.push(f.personen);
+      if (fail(f.telefon, !/^[0-9+()\/\s-]{6,}$/.test(f.telefon.value.trim()))) errors.push(f.telefon);
+      const mail = f.email.value.trim();
+      if (fail(f.email, mail !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail))) errors.push(f.email);
+      return errors;
+    };
+    booking.addEventListener('input', e => { if (e.target.hasAttribute('aria-invalid')) check(); });
+    booking.addEventListener('submit', async e => {
+      e.preventDefault();
+      const errors = check();
+      if (errors.length) {
+        status.textContent = errors.length === 1 ? 'Bitte prüfen Sie das markierte Feld.' : `Bitte prüfen Sie die ${errors.length} markierten Felder.`;
+        errors[0].focus();
+        return;
+      }
+      const f = booking.elements;
+      const [y, m, d] = f.datum.value.split('-');
+      const day = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(f.datum.value + 'T12:00').getDay()];
+      const lines = [
+        'Hallo Stavros,', '',
+        'ich möchte gern einen Tisch im Biergarten reservieren:', '',
+        `Datum: ${day}, ${d}.${m}.${y}`,
+        `Uhrzeit: ${f.uhrzeit.value} Uhr`,
+        `Personen: ${f.personen.value}`,
+        `Name: ${f.name.value.trim()}`,
+        `Telefon: ${f.telefon.value.trim()}`,
+        f.email.value.trim() ? `E-Mail: ${f.email.value.trim()}` : '',
+        f.nachricht.value.trim() ? `\nNachricht: ${f.nachricht.value.trim()}` : '',
+        '', 'Vielen Dank!'
+      ].filter((l, i, a) => !(l === '' && a[i - 1] === ''));
+      const subject = `Tischreservierung Biergarten: ${d}.${m}. um ${f.uhrzeit.value} Uhr, ${f.personen.value} Pers.`;
+      const endpoint = booking.dataset.endpoint;
+      if (endpoint) {
+        status.textContent = 'Wird gesendet …';
+        try {
+          const r = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(booking) });
+          if (!r.ok) throw new Error(r.status);
+          booking.reset();
+          status.textContent = 'Danke! Ihre Anfrage ist angekommen. Wir melden uns zur Bestätigung.';
+        } catch {
+          status.textContent = 'Das hat leider nicht geklappt. Bitte rufen Sie uns an: 02171 80154.';
+        }
+        return;
+      }
+      location.href = `mailto:bahnstadtgrill@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+      status.textContent = 'Ihr E-Mail-Programm öffnet sich mit der fertigen Anfrage – bitte dort nur noch auf „Senden“ tippen. Öffnet sich nichts? Rufen Sie uns an: 02171 80154.';
+    });
+  }
+
   /* ---------------------------------------------------------- Laufband nahtlos */
   const ticker = $('[data-ticker]');
   if (ticker) ticker.append(ticker.firstElementChild.cloneNode(true));
