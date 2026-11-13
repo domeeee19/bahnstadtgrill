@@ -567,3 +567,31 @@ section { position: relative; }
   .theke__cards { grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1.3fr; }
   .feature--wide { grid-column: auto; min-height: 300px; }
 }
+
+/* ---------------------------------------------------------------- Kein erzwungener Dunkelmodus */
+:root { color-scheme: light only; }
+
+/* ---------------------------------------------------------------- Das Haus heute */
+.house { margin: 70px 0 0; display: grid; grid-template-columns: minmax(240px, .8fr) 1.2fr; gap: clamp(28px, 4vw, 60px); align-items: center; }
+.house img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 26px; border: 6px solid var(--paper); box-shadow: 0 0 0 4px var(--blue), 0 30px 60px -30px rgba(11, 20, 48, .5); transform: rotate(-1.5deg); }
+.house figcaption { display: grid; gap: 26px; }
+.house__signs { display: flex; flex-wrap: wrap; gap: 14px; align-items: end; }
+.house__text { color: var(--ink-soft); max-width: 46ch; font-size: 17px; }
+.house__text b { display: block; font: 400 clamp(30px, 3vw, 44px)/1.05 var(--display); text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+@media (max-width: 720px) {
+  .house { grid-template-columns: 1fr; margin-top: 50px; }
+  .house img { max-width: 360px; justify-self: center; }
+}
+
+/* ---------------------------------------------------------------- FAQ */
+.faq { background: var(--paper); }
+.faq__grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 6vw, 90px); align-items: start; }
+.faq__item { border-bottom: 2px solid var(--ink); }
+.faq__item:first-child { border-top: 2px solid var(--ink); }
+.faq__item summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; font: 400 clamp(22px, 2vw, 30px)/1.15 var(--display); text-transform: uppercase; transition: color .2s; }
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after { content: "+"; flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--cream-2); font: 700 22px/1 var(--text); transition: transform .35s var(--ease), background-color .2s; }
+.faq__item[open] summary::after { transform: rotate(45deg); background: var(--amber); }
+.faq__item summary:hover { color: var(--blue); }
+.faq__item p { margin: -6px 0 22px; max-width: 60ch; color: var(--ink-soft); }
+@media (max-width: 1080px) { .faq__grid { grid-template-columns: 1fr; } }

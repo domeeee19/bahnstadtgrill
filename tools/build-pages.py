@@ -39,6 +39,7 @@ def page(slug, title, description, h1, lead, body, robots="index,follow"):
 <meta name="description" content="{html.escape(description)}">
 <meta name="robots" content="{robots}">
 <meta name="theme-color" content="#08132e">
+<meta name="color-scheme" content="light only">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://bahnstadtgrill.de/{slug}">
@@ -46,7 +47,9 @@ def page(slug, title, description, h1, lead, body, robots="index,follow"):
 <meta property="og:type" content="website">
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(description)}">
-<meta property="og:image" content="share.jpg">
+<meta property="og:site_name" content="Bahnstadt Grill Opladen">
+<meta property="og:url" content="https://bahnstadtgrill.de/{slug}">
+<meta property="og:image" content="https://bahnstadtgrill.de/share.jpg">
 <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -118,8 +121,8 @@ menu = json.loads((ROOT / "tools" / "menu.json").read_text(encoding="utf-8"))
 (DOCS / "speisekarte.html").write_text(
     page(
         "speisekarte.html",
-        "Speisekarte: Gyros, Pizza und Schnitzel | Bahnstadtgrill Opladen",
-        "Die Speisekarte des Bahnstadtgrill in Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte und kühle Getränke.",
+        "Speisekarte: Gyros, Pizza und Schnitzel | Bahnstadt Grill Opladen",
+        "Speisekarte des Bahnstadt Grill am Bahnhof Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte und kühle Getränke.",
         "Die Karte",
         "Imbiss und Gastraum, Montag bis Samstag 11:30 bis 21 Uhr. Alles auch zum Mitnehmen. Tzatziki und Krautsalat machen wir selbst.",
         menu_switch("speisekarte.html") + render_menu(menu),
@@ -131,7 +134,7 @@ garden = json.loads((ROOT / "tools" / "biergarten-karte.json").read_text(encodin
 (DOCS / "biergarten-karte.html").write_text(
     page(
         "biergarten-karte.html",
-        "Biergarten-Karte | Bahnstadtgrill Opladen",
+        "Biergarten-Karte | Bahnstadt Grill Opladen",
         "Die Karte des Bahnstadt Biergartens in Leverkusen-Opladen, Montag bis Samstag von 17 bis 22 Uhr.",
         "Biergarten",
         "Eigene Karte für draußen, Montag bis Samstag von 17 bis 22 Uhr.",
@@ -144,7 +147,7 @@ garden = json.loads((ROOT / "tools" / "biergarten-karte.json").read_text(encodin
 L = legal
 impressum = f"""<div class="prose">
 <h2>Angaben gemäß § 5 DDG</h2>
-<p>Bahnstadtgrill Opladen<br>{todo(L['owner'], 'Vor- und Nachname des Inhabers bzw. Firma mit Rechtsform und Vertretungsberechtigten')}<br>Lützenkirchener Straße 12<br>51379 Leverkusen</p>
+<p>Bahnstadt Grill Opladen<br>{todo(L['owner'], 'Vor- und Nachname des Inhabers bzw. Firma mit Rechtsform und Vertretungsberechtigten')}<br>Lützenkirchener Straße 12<br>51379 Leverkusen</p>
 <h2>Kontakt</h2>
 <p>Telefon: <a href="tel:+49217180154">02171 80154</a><br>E-Mail: <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a></p>
 <h2>Umsatzsteuer-ID</h2>
@@ -157,14 +160,14 @@ impressum = f"""<div class="prose">
 <p>Die Bildnachweise stehen auf einer <a href="credits.html">eigenen Seite</a>.</p>
 </div>"""
 (DOCS / "impressum.html").write_text(
-    page("impressum.html", "Impressum | Bahnstadtgrill Opladen", "Impressum und Anbieterkennzeichnung des Bahnstadtgrill Opladen.", "Impressum", "", impressum, "noindex,follow"),
+    page("impressum.html", "Impressum | Bahnstadt Grill Opladen", "Impressum und Anbieterkennzeichnung des Bahnstadt Grill Opladen.", "Impressum", "", impressum, "noindex,follow"),
     encoding="utf-8",
 )
 
 # ---------------------------------------------------------------- Datenschutz
 datenschutz = f"""<div class="prose">
 <h2>Verantwortlicher</h2>
-<p>Bahnstadtgrill Opladen, {todo(L['owner'], 'Name des Inhabers')}, Lützenkirchener Straße 12, 51379 Leverkusen. Telefon <a href="tel:+49217180154">02171 80154</a>, E-Mail <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a>.</p>
+<p>Bahnstadt Grill Opladen, {todo(L['owner'], 'Name des Inhabers')}, Lützenkirchener Straße 12, 51379 Leverkusen. Telefon <a href="tel:+49217180154">02171 80154</a>, E-Mail <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a>.</p>
 <h2>Kurz gesagt</h2>
 <p>Diese Website setzt keine Cookies, nutzt kein Tracking und lädt beim Aufruf nichts von Google oder anderen Drittanbietern. Schriften und Bilder liegen auf demselben Server wie die Seite. Google Maps wird nur nach Ihrem Klick geladen (siehe unten).</p>
 <h2>Hosting</h2>
@@ -183,7 +186,7 @@ datenschutz = f"""<div class="prose">
 <p>{todo(L['asOf'], 'Datum der rechtlichen Prüfung')}</p>
 </div>"""
 (DOCS / "datenschutz.html").write_text(
-    page("datenschutz.html", "Datenschutz | Bahnstadtgrill Opladen", "Datenschutzerklärung des Bahnstadtgrill Opladen: keine Cookies, kein Tracking.", "Datenschutz", "", datenschutz, "noindex,follow"),
+    page("datenschutz.html", "Datenschutz | Bahnstadt Grill Opladen", "Datenschutzerklärung des Bahnstadt Grill Opladen: keine Cookies, kein Tracking.", "Datenschutz", "", datenschutz, "noindex,follow"),
     encoding="utf-8",
 )
 
@@ -204,8 +207,8 @@ for own in legal.get("ownPhotos", []):
 (DOCS / "credits.html").write_text(
     page(
         "credits.html",
-        "Bildnachweise | Bahnstadtgrill Opladen",
-        "Herkunft und Lizenzen der Fotos auf der Website des Bahnstadtgrill Opladen.",
+        "Bildnachweise | Bahnstadt Grill Opladen",
+        "Herkunft und Lizenzen der Fotos auf der Website des Bahnstadt Grill Opladen.",
         "Bildnachweise",
         "Fotos von Wikimedia Commons unter freien Lizenzen. Sie werden nach und nach durch eigene Fotos des Hauses ersetzt.",
         f'<ul class="credits-list prose">{"".join(rows)}</ul>',
