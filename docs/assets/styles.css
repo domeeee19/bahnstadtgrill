@@ -458,3 +458,28 @@ section { position: relative; }
   .collage .polaroid--b { transform: rotate(2deg); }
   .collage .polaroid--c { transform: rotate(-1.5deg); }
 }
+
+/* ---------------------------------------------------------------- Google-Bewertungen */
+.reviews { background: var(--paper); }
+.review-grid { display: grid; grid-template-columns: 1fr 1.35fr .8fr; gap: 24px; align-items: start; }
+.review { margin: 0; background: #fff; border-radius: 24px; padding: 28px; box-shadow: 0 1px 0 rgba(11, 20, 48, .06), 0 24px 50px -30px rgba(11, 20, 48, .35); border: 1px solid rgba(11, 20, 48, .07); transition: transform .45s var(--ease-bounce), box-shadow .45s var(--ease); }
+.review:hover { transform: translateY(-6px) rotate(-.4deg); box-shadow: 0 30px 60px -30px rgba(11, 20, 48, .45); }
+.review__head { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; }
+.review__head b { display: block; font-size: 17px; }
+.review__head small { color: var(--ink-soft); font-size: 13px; }
+.review__avatar { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); color: #fff; font: 400 18px var(--display); letter-spacing: .04em; }
+.review__avatar--b { background: var(--amber-deep); }
+.review__g { width: 24px; height: 24px; }
+.review__stars { margin: 18px 0 10px; color: #fbbc04; font-size: 22px; letter-spacing: 3px; }
+.review__stars span { color: #dadce0; }
+.review blockquote { margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink); }
+.review--cta { display: flex; flex-direction: column; gap: 12px; justify-content: center; min-height: 260px; background: var(--night); color: var(--cream); text-decoration: none; border: 0; }
+.review__big { font: 400 clamp(30px, 2.6vw, 40px)/1 var(--display); text-transform: uppercase; color: var(--amber); }
+.review__go { margin-top: 8px; font-weight: 700; }
+.review--cta:hover .review__go { color: var(--amber); }
+.score__vs { font-size: clamp(34px, 4vw, 56px) !important; text-transform: uppercase; }
+@media (max-width: 1080px) { .review-grid { grid-template-columns: 1fr 1fr; } .review--cta { grid-column: 1 / -1; min-height: 0; } }
+@media (max-width: 720px) { .review-grid { grid-template-columns: 1fr; } .review { padding: 22px; } }
+
+/* Umlaute in mehrzeiligen Überschriften brauchen Luft */
+.sec__title { line-height: 1.1; }

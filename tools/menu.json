@@ -364,13 +364,13 @@
     {
      "id": "bier",
      "title": "Bier",
-     "intro": "An der Theke frisch gezapft, dazu eine Auswahl aus der Flasche.",
+     "intro": "Gut gekühlt aus der Flasche.",
      "items": [
       {
-       "name": "Kölsch vom Fass"
+       "name": "Kölsch"
       },
       {
-       "name": "Pils vom Fass"
+       "name": "Pils"
       },
       {
        "name": "Weizenbier"

@@ -103,7 +103,7 @@ menu_body = "\n".join(groups_html) + f"""
     page(
         "speisekarte.html",
         "Speisekarte: Gyros, Pizza und Schnitzel | Bahnstadtgrill Opladen",
-        "Die Speisekarte des Bahnstadtgrill in Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte, Kölsch und Pils vom Fass.",
+        "Die Speisekarte des Bahnstadtgrill in Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte und kühle Getränke.",
         "Die Karte",
         "Alles gibt es zum Hieressen, im Biergarten und zum Mitnehmen. Tzatziki und Krautsalat machen wir selbst.",
         menu_body,
