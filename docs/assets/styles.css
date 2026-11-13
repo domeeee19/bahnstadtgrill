@@ -112,8 +112,9 @@ a { color: inherit; }
 @keyframes awning { to { background-position: 88px 0; } }
 .hero__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(30px, 5vw, 80px); align-items: center; }
 .hero__eyebrow { color: var(--amber); }
-.hero__title { font-size: clamp(64px, 10.4vw, 168px); margin: 22px 0 18px; }
-.hero__title .line { display: block; overflow: hidden; padding: .12em 0 .02em; margin-top: -.06em; }
+.hero__title { font-size: clamp(64px, 9vw, 144px); margin: 22px 0 18px; }
+.hero__title .line { display: block; overflow: hidden; padding: .16em 0 .02em; margin-top: -.06em; }
+.hero__title { line-height: 1.02; }
 .hero__title .line > span { display: inline-block; transform: translateY(105%); animation: rise 1s var(--ease) forwards; }
 .hero__title .line:nth-child(2) > span { animation-delay: .12s; }
 .hero__title .line:nth-child(3) > span { animation-delay: .24s; }
@@ -129,7 +130,7 @@ a { color: inherit; }
 
 .hero__visual { position: relative; justify-self: end; width: min(100%, 520px); opacity: 0; animation: fade 1.2s .3s var(--ease) forwards; }
 .arch { position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 26px 26px; overflow: hidden; border: 6px solid var(--paper); box-shadow: 0 0 0 6px var(--blue), 0 40px 80px -30px rgba(0, 0, 0, .7); transform: rotate(2deg); }
-.arch img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transition: transform 1.4s var(--ease); will-change: transform; }
+.arch img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%; transform: scale(1.12); transition: transform 1.4s var(--ease); will-change: transform; }
 .hero__visual:hover .arch img { transform: scale(1.18); }
 .sticker { position: absolute; left: -38px; top: 12%; width: 128px; height: 128px; border-radius: 50%; background: var(--amber); color: var(--night); display: grid; place-items: center; text-align: center; font: 400 22px/1 var(--display); text-transform: uppercase; transform: rotate(-14deg); box-shadow: 0 18px 30px -12px rgba(0, 0, 0, .55); animation: wobble 6s ease-in-out infinite; }
 .sticker small { display: block; font: 700 10px/1.2 var(--text); letter-spacing: .12em; margin-top: 4px; }
@@ -349,11 +350,6 @@ section { position: relative; }
 }
 @media (max-width: 720px) {
   body { font-size: 16px; }
-  .hero { padding-top: 120px; padding-bottom: 80px; }
-  .hero__visual { width: 100%; margin: 40px 0 10px; }
-  .arch { width: 78%; margin: 0 auto; }
-  .sticker { width: 96px; height: 96px; font-size: 17px; left: 0; }
-  .board { position: relative; right: auto; bottom: auto; width: 100%; margin-top: -70px; }
   .flap { width: 18px; height: 26px; font-size: 16px; }
   .board__clock .flap { width: 20px; height: 28px; font-size: 18px; }
   .track { grid-template-columns: 1fr; padding-top: 0; padding-left: 46px; gap: 50px; }
@@ -386,3 +382,24 @@ section { position: relative; }
 
 .card-grid .dish__name { font-size: clamp(20px, 1.7vw, 26px); line-height: 1.05; }
 .card-grid .dish { padding: 16px 0; }
+
+/* ---------------------------------------------------------------- Handy: der Patron zuerst */
+@media (max-width: 720px) {
+  .hero { padding: 0 0 56px; }
+  .hero__grid { gap: 0; }
+  .hero__visual { display: contents; }
+  .arch { order: -1; position: relative; width: auto; height: 66svh; min-height: 440px; max-height: 620px; aspect-ratio: auto; margin: 0 calc(-1 * var(--gut)) 28px; border: 0; border-radius: 0 0 34px 34px; box-shadow: none; transform: none; }
+  .arch::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(8, 19, 46, .78) 0, rgba(8, 19, 46, 0) 32%), linear-gradient(transparent 70%, rgba(8, 19, 46, .55)); }
+  .arch img { object-position: 62% 30%; transform: none !important; }
+  .sticker { left: auto; right: 14px; top: calc(min(max(66svh, 440px), 620px) - 82px); width: 104px; height: 104px; font-size: 18px; z-index: 3; }
+  .board { order: 2; position: relative; right: auto; bottom: auto; width: 100%; margin-top: 36px; background: var(--night-2); border-color: rgba(255, 255, 255, .16); }
+  .hero__title { font-size: clamp(54px, 16vw, 76px); margin-top: 14px; }
+  .hero__greet { font-size: 21px; margin-bottom: 24px; }
+  .hero__actions .btn { flex: 1 1 100%; justify-content: center; }
+  .hero__facts { margin-top: 26px; }
+  .scroll-hint { display: none; }
+  .flap { width: 18px; height: 26px; font-size: 16px; }
+  .board__clock .flap { width: 20px; height: 28px; font-size: 18px; }
+  .signs { flex-wrap: wrap; gap: 14px; }
+  .sign { font-size: 30px; padding: 12px 20px; }
+}
