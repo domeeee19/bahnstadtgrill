@@ -528,3 +528,16 @@ section { position: relative; }
 }
 .booking__form .f-email { grid-column: span 2; }
 @media (max-width: 720px) { .booking__form .f-email { grid-column: 1 / -1; } }
+
+/* Mobile-Menü: oben beginnend, scrollbar, einheitliche Nummernspalte */
+.mobile-menu { justify-content: flex-start; overflow-y: auto; overscroll-behavior: contain; padding: 108px var(--gut) 40px; }
+.mobile-menu__list { display: grid; }
+.mobile-menu__list a { display: grid; grid-template-columns: 2.4em 1fr; align-items: baseline; gap: 0; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, .1); font: 400 clamp(34px, 9.5vw, 56px)/1.05 var(--display); text-transform: uppercase; text-decoration: none; transition: color .2s, padding-left .3s var(--ease); }
+.mobile-menu__list a:hover, .mobile-menu__list a:focus-visible { color: var(--amber); padding-left: 6px; }
+.mobile-menu__list small { font: 700 13px var(--text); color: var(--amber); letter-spacing: .1em; }
+.mobile-menu__info { margin: 28px 0 0; color: var(--sky); font-size: 15px; line-height: 1.6; }
+.mobile-menu__info a { font: 700 18px var(--text) !important; display: inline !important; color: var(--amber); text-decoration: none; }
+
+.brand span { white-space: nowrap; }
+@media (max-width: 380px) { .brand span { font-size: 20px; } .brand img { width: 34px; height: 40px; } }
+.mobile-menu__list a { grid-template-columns: 2em 1fr; }
