@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+"""Erzeugt die Unterseiten (Speisekarte, Impressum, Datenschutz, Bildnachweise) in docs/.
+
+Kopf, Kopfzeile und Fußzeile kommen aus docs/index.html (Marker HEAD-COMMON,
+HEADER, FOOTER), damit alle Seiten gleich aussehen. Die häufigen Fragen aus
+tools/faq.json werden in index.html eingesetzt (sichtbar und als JSON-LD).
+Inhalte pflegen: Speisekarten in tools/menu.json und tools/biergarten-karte.json,
+häufige Fragen in tools/faq.json, Rechtsangaben in tools/legal.json.
+Aufruf:  python3 tools/build-pages.py
+"""
+import html, json, re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+SITE = "Bahnstadt Grill Opladen"
+BASE_URL = "https://bahnstadtgrill.de/"
+index = (DOCS / "index.html").read_text(encoding="utf-8")
+
+
+def fill(marker, content):
+    """Ersetzt den Inhalt zwischen <!--MARKER--> und <!--/MARKER--> in index.html."""
+    global index
+    start, end = f"<!--{marker}-->", f"<!--/{marker}-->"
+    a = index.index(start) + len(start)
+    b = index.index(end, a)
+    index = index[:a] + content + index[b:]
+
+
+# ---------------------------------------------------------------- Häufige Fragen (eine Quelle für Seite und JSON-LD)
+faq = json.loads((ROOT / "tools" / "faq.json").read_text(encoding="utf-8"))
+fill("FAQ-LIST", "\n" + "\n".join(
+    f'        <details class="faq__item"><summary>{html.escape(f["frage"])}</summary><p>{html.escape(f["antwort"])}</p></details>'
+    for f in faq) + "\n")
+faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "@id": BASE_URL + "#faq",
+          "mainEntity": [{"@type": "Question", "name": f["frage"],
+                          "acceptedAnswer": {"@type": "Answer", "text": f["antwort"]}} for f in faq]}
+fill("FAQ-LD", '\n<script type="application/ld+json">\n'
+     + json.dumps(faq_ld, ensure_ascii=False).replace("</", "<\\/") + "\n</script>\n")
+(DOCS / "index.html").write_text(index, encoding="utf-8")
+
+
+def between(start, end):
+    a = index.index(start)
+    b = index.index(end, a) + len(end)
+    return index[a:b]
+
+
+head_common = between("<!--HEAD-COMMON-->", "<!--/HEAD-COMMON-->")
+header = between("<!--HEADER-->", "<!--/HEADER-->")
+footer = between("<!--FOOTER-->", "<!--/FOOTER-->")
+
+legal = json.loads((ROOT / "tools" / "legal.json").read_text(encoding="utf-8"))
+
+
+def todo(value, hint):
+    return html.escape(value) if value else f'<mark class="todo">[Bitte ergänzen: {html.escape(hint)}]</mark>'
+
+
+sitemap = [BASE_URL]
+
+
+def page(slug, title, description, h1, lead, body, robots="index,follow"):
+    full_title = f"{title} | {SITE}"
+    if robots.startswith("index"):
+        sitemap.append(BASE_URL + slug)
+    return f"""<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{html.escape(full_title)}</title>
+<meta name="description" content="{html.escape(description)}">
+<meta name="robots" content="{robots}">
+<link rel="canonical" href="{BASE_URL}{slug}">
+<meta property="og:url" content="{BASE_URL}{slug}">
+<meta property="og:title" content="{html.escape(full_title)}">
+<meta property="og:description" content="{html.escape(description)}">
+{head_common}
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt</a>
+{header}
+<main id="inhalt">
+  <section class="page-hero">
+    <div class="awning-top" aria-hidden="true"></div>
+    <div class="wrap">
+      <h1 class="display">{html.escape(h1)}</h1>
+      {f'<p class="lead">{lead}</p>' if lead else ''}
+    </div>
+  </section>
+  <section class="page-body">
+    <div class="wrap">
+{body}
+    </div>
+  </section>
+</main>
+{footer}
+<script src="assets/app.js" defer></script>
+</body>
+</html>
+"""
+
+
+# ---------------------------------------------------------------- Speisekarten
+def menu_switch(active):
+    tabs = [("speisekarte.html", "Imbiss & Gastraum"), ("biergarten-karte.html", "Biergarten")]
+    links = "".join(
+        f'<a class="tab" href="{href}"' + (' aria-current="page"' if href == active else "") + f">{label}</a>"
+        for href, label in tabs
+    )
+    return f'<nav class="tabs menu-switch" aria-label="Karten">{links}</nav>'
+
+
+def render_menu(data):
+    groups_html = []
+    for group in data["groups"]:
+        cats = []
+        for cat in group["categories"]:
+            rows = []
+            for i, item in enumerate(cat["items"]):
+                tag = ""
+                if item.get("homemade"):
+                    tag = '<span class="dish__tag">hausgemacht</span>'
+                elif item.get("vegetarian"):
+                    tag = '<span class="dish__tag dish__tag--veg">veggie</span>'
+                price = f' · {html.escape(item["price"])} €' if item.get("price") else ""
+                desc = item.get("description", "")
+                rows.append(
+                    f'<div class="dish" style="--i:{i}"><span class="dish__no">{i+1:02d}</span>'
+                    f'<span class="dish__name">{html.escape(item["name"])}</span>{tag or "<span></span>"}'
+                    + (f'<p class="dish__desc">{html.escape(desc)}{price}</p>' if desc or price else "")
+                    + "</div>"
+                )
+            intro = f'<p>{html.escape(cat["intro"])}</p>' if cat.get("intro") else ""
+            cats.append(f'<div id="{cat["id"]}"><h2>{html.escape(cat["title"])}</h2>{intro}{"".join(rows)}</div>')
+        if cats:
+            groups_html.append(f'<h2 class="menu-group-title" id="{group["id"]}">{html.escape(group["title"])}</h2><div class="card-grid">{"".join(cats)}</div>')
+    if not groups_html:
+        return f'<div class="menu-pending"><p class="lead">{html.escape(data["pending"])}</p><a class="btn btn--blue" href="index.html#reservieren">Tisch im Biergarten reservieren</a></div>'
+    return "\n".join(groups_html) + f"""
+<p class="lead" style="margin-top:60px;max-width:60ch">{data['note']}</p>"""
+
+
+menu = json.loads((ROOT / "tools" / "menu.json").read_text(encoding="utf-8"))
+(DOCS / "speisekarte.html").write_text(
+    page(
+        "speisekarte.html",
+        "Speisekarte: Gyros, Pizza und Schnitzel",
+        "Speisekarte des Bahnstadt Grill am Bahnhof Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte und kühle Getränke.",
+        "Die Karte",
+        "Imbiss und Gastraum, Montag bis Samstag 11:30 bis 21 Uhr. Alles auch zum Mitnehmen. Tzatziki und Krautsalat machen wir selbst.",
+        menu_switch("speisekarte.html") + render_menu(menu),
+    ),
+    encoding="utf-8",
+)
+
+garden = json.loads((ROOT / "tools" / "biergarten-karte.json").read_text(encoding="utf-8"))
+(DOCS / "biergarten-karte.html").write_text(
+    page(
+        "biergarten-karte.html",
+        "Biergarten-Karte",
+        "Die Karte des Bahnstadt Biergartens in Leverkusen-Opladen, Montag bis Samstag von 17 bis 22 Uhr.",
+        "Biergarten",
+        "Eigene Karte für draußen, Montag bis Samstag von 17 bis 22 Uhr.",
+        menu_switch("biergarten-karte.html") + render_menu(garden),
+    ),
+    encoding="utf-8",
+)
+
+# ---------------------------------------------------------------- Impressum
+L = legal
+impressum = f"""<div class="prose">
+<h2>Angaben gemäß § 5 DDG</h2>
+<p>{SITE}<br>{todo(L['owner'], 'Vor- und Nachname des Inhabers bzw. Firma mit Rechtsform und Vertretungsberechtigten')}<br>Lützenkirchener Straße 12<br>51379 Leverkusen</p>
+<h2>Kontakt</h2>
+<p>Telefon: <a href="tel:+49217180154">02171 80154</a><br>E-Mail: <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a></p>
+<h2>Umsatzsteuer-ID</h2>
+<p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: {todo(L['vatId'], 'USt-IdNr., falls vorhanden – sonst Abschnitt löschen')}</p>
+<h2>Verantwortlich für den Inhalt</h2>
+<p>{todo(L['owner'], 'Name der verantwortlichen Person')}, Anschrift wie oben</p>
+<h2>Verbraucherstreitbeilegung</h2>
+<p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+<h2>Bildnachweise</h2>
+<p>Die Bildnachweise stehen auf einer <a href="credits.html">eigenen Seite</a>.</p>
+</div>"""
+(DOCS / "impressum.html").write_text(
+    page("impressum.html", "Impressum", f"Impressum und Anbieterkennzeichnung: {SITE}.", "Impressum", "", impressum, "noindex,follow"),
+    encoding="utf-8",
+)
+
+# ---------------------------------------------------------------- Datenschutz
+datenschutz = f"""<div class="prose">
+<h2>Verantwortlicher</h2>
+<p>{SITE}, {todo(L['owner'], 'Name des Inhabers')}, Lützenkirchener Straße 12, 51379 Leverkusen. Telefon <a href="tel:+49217180154">02171 80154</a>, E-Mail <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a>.</p>
+<h2>Kurz gesagt</h2>
+<p>Diese Website setzt keine Cookies, nutzt kein Tracking und lädt beim Aufruf nichts von Google oder anderen Drittanbietern. Schriften und Bilder liegen auf demselben Server wie die Seite. Google Maps wird nur nach Ihrem Klick geladen (siehe unten).</p>
+<h2>Hosting</h2>
+<p>Die Website wird gehostet bei: {todo(L['host'], 'Name und Anschrift des Hosting-Anbieters, ggf. Hinweis auf Auftragsverarbeitung und Drittlandübermittlung')}. Beim Aufruf verarbeitet der Anbieter technisch notwendige Daten (IP-Adresse, Zeitpunkt, aufgerufene Seite, Browser), um die Seite auszuliefern und abzusichern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+<h2 id="reservierung">Tischreservierung</h2>
+<p>Wenn Sie über das Formular einen Tisch im Biergarten anfragen, verarbeiten wir Ihren Namen, Ihre Telefonnummer, auf Wunsch Ihre E-Mail-Adresse, Datum, Uhrzeit, Personenzahl und Ihre Nachricht, um die Reservierung zu bearbeiten (Art. 6 Abs. 1 lit. b DSGVO). Die Anfrage wird über Ihr eigenes E-Mail-Programm an uns geschickt; die Website selbst speichert nichts. Wir löschen die Angaben, sobald der Besuch vorbei ist und keine Aufbewahrungspflichten entgegenstehen.</p>
+<h2>Kontakt per Telefon oder E-Mail</h2>
+<p>Wenn Sie uns anrufen oder schreiben, verarbeiten wir Ihre Angaben, um Ihr Anliegen zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Unser E-Mail-Postfach wird von Google (Gmail) bereitgestellt; dabei können Daten auch außerhalb der EU verarbeitet werden.</p>
+<h2>Links zu anderen Anbietern</h2>
+<p>„Route planen“ öffnet die Routenplanung von Google Maps, der Facebook-Link unsere Facebook-Seite. Daten gehen erst an diese Anbieter, wenn Sie den Link anklicken. Dort gelten deren Datenschutzbestimmungen.</p>
+<h2 id="google-maps">Google Maps</h2>
+<p>Im Bereich „Anfahrt“ können Sie eine Karte von Google Maps einblenden. Sie wird erst geladen, wenn Sie auf „Google Maps laden“ klicken; vorher werden keine Daten an Google übertragen. Nach dem Klick stellt Ihr Browser eine Verbindung zu Servern der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, her. Google erhält dabei unter anderem Ihre IP-Adresse und kann Cookies setzen; eine Übermittlung in die USA ist möglich. Rechtsgrundlage ist Ihre Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Sie gilt nur für den jeweiligen Seitenaufruf. Mehr dazu in der <a href="https://policies.google.com/privacy?hl=de" rel="noopener noreferrer">Datenschutzerklärung von Google</a>.</p>
+<h2>Ihre Rechte</h2>
+<p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO). Eine Nachricht an <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a> genügt. Beschweren können Sie sich bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, Kavalleriestraße 2–4, 40213 Düsseldorf.</p>
+<h2>Stand</h2>
+<p>{todo(L['asOf'], 'Datum der rechtlichen Prüfung')}</p>
+</div>"""
+(DOCS / "datenschutz.html").write_text(
+    page("datenschutz.html", "Datenschutz", f"Datenschutzerklärung {SITE}: keine Cookies, kein Tracking.", "Datenschutz", "", datenschutz, "noindex,follow"),
+    encoding="utf-8",
+)
+
+# ---------------------------------------------------------------- Bildnachweise
+credits = json.loads((DOCS / "assets" / "img" / "credits.json").read_text(encoding="utf-8"))["photos"]
+used = set(re.findall(r"photo-(f\d+)", index + (DOCS / "speisekarte.html").read_text(encoding="utf-8")))
+rows = []
+for c in credits:
+    if c["id"] not in used:
+        continue
+    rows.append(
+        f'<li><b>{html.escape(c["by"])}</b><br>{html.escape(c["source"])}, '
+        f'<a href="{c["licenceUrl"]}" rel="noopener noreferrer">{html.escape(c["licence"])}</a>, '
+        f'<a href="{c["page"]}" rel="noopener noreferrer">Originaldatei</a>; für die Website zugeschnitten</li>'
+    )
+for own in legal.get("ownPhotos", []):
+    rows.append(f'<li><b>{html.escape(own)}</b><br>Foto des Bahnstadt Grill</li>')
+(DOCS / "credits.html").write_text(
+    page(
+        "credits.html",
+        "Bildnachweise",
+        f"Herkunft und Lizenzen der Fotos auf der Website {SITE}.",
+        "Bildnachweise",
+        "Fotos von Wikimedia Commons unter freien Lizenzen. Sie werden nach und nach durch eigene Fotos des Hauses ersetzt.",
+        f'<ul class="credits-list prose">{"".join(rows)}</ul>',
+        "noindex,follow",
+    ),
+    encoding="utf-8",
+)
+(DOCS / "sitemap.xml").write_text(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "".join(f"  <url><loc>{u}</loc></url>\n" for u in sitemap) + "</urlset>\n",
+    encoding="utf-8",
+)
+print("geschrieben: index.html (FAQ), sitemap.xml, speisekarte.html, biergarten-karte.html, impressum.html, datenschutz.html, credits.html")

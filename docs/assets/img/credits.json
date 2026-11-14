@@ -1,0 +1,125 @@
+{
+ "note": "Credits for the photographs in this folder: photos.mjs credits prints the footer block for the ones the pages use.",
+ "photos": [
+  {
+   "file": "photo-f24819081.webp",
+   "files": [
+    "photo-f24819081-500.webp",
+    "photo-f24819081-960.webp",
+    "photo-f24819081.webp"
+   ],
+   "id": "f24819081",
+   "alt": "Souvlaki sandwich",
+   "by": "www.flickr.com/photos/avlxyz/",
+   "licence": "CC BY-SA 2.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Souvlaki_sandwich.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f35653424.webp",
+   "files": [
+    "photo-f35653424-500.webp",
+    "photo-f35653424-960.webp",
+    "photo-f35653424.webp"
+   ],
+   "id": "f35653424",
+   "alt": "Tzatiki (3656301454)",
+   "by": "Vegan Feast Catering",
+   "licence": "CC BY 2.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Tzatiki_(3656301454).jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f1055026.webp",
+   "files": [
+    "photo-f1055026-500.webp",
+    "photo-f1055026-960.webp",
+    "photo-f1055026.webp"
+   ],
+   "id": "f1055026",
+   "alt": "Currywurst pommes vw autostadt cylinder",
+   "by": "Andreas -horn- Hornig",
+   "licence": "CC BY-SA 3.0",
+   "licenceUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Currywurst_pommes_vw_autostadt_cylinder.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f44471027.webp",
+   "files": [
+    "photo-f44471027-500.webp",
+    "photo-f44471027-960.webp",
+    "photo-f44471027.webp"
+   ],
+   "id": "f44471027",
+   "alt": "Souvlaki in Athens",
+   "by": "Miyagawa",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Souvlaki_in_Athens.JPG",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f3522690.webp",
+   "files": [
+    "photo-f3522690-500.webp",
+    "photo-f3522690-960.webp",
+    "photo-f3522690.webp"
+   ],
+   "id": "f3522690",
+   "alt": "Darts in a dartboard",
+   "by": "PeterPan23",
+   "licence": "Public domain",
+   "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Darts_in_a_dartboard.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f55114560.webp",
+   "files": [
+    "photo-f55114560-500.webp",
+    "photo-f55114560-960.webp",
+    "photo-f55114560.webp"
+   ],
+   "id": "f55114560",
+   "alt": "Gyros pita making",
+   "by": "Neon Tommy",
+   "licence": "CC BY-SA 2.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Gyros_pita_making.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f44670946.webp",
+   "files": [
+    "photo-f44670946-500.webp",
+    "photo-f44670946-960.webp",
+    "photo-f44670946.webp"
+   ],
+   "id": "f44670946",
+   "alt": "Bahnhof Opladen Umbauzustand 09-2015",
+   "by": "EveryPicture",
+   "licence": "CC BY-SA 3.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Bahnhof_Opladen_Umbauzustand_09-2015.JPG",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f69827066.webp",
+   "files": [
+    "photo-f69827066-500.webp",
+    "photo-f69827066-960.webp",
+    "photo-f69827066.webp"
+   ],
+   "id": "f69827066",
+   "alt": "Chicken souvlaki at Hellenic 2",
+   "by": "Orderinchaos",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Chicken_souvlaki_at_Hellenic_2.jpg",
+   "source": "Wikimedia Commons"
+  }
+ ]
+}

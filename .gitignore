@@ -1,0 +1,7 @@
+.DS_Store
+node_modules/
+# Prüf-Ausgaben des Taste-Skills (Screenshots, Chrome-Profile)
+.taste-skill/chrome-*/
+docs/.taste-skill/
+.taste-skill/gate/
+.taste-skill/
