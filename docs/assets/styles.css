@@ -594,3 +594,9 @@ section { position: relative; }
 .faq__item p { margin: -6px 0 22px; max-width: 60ch; color: var(--ink-soft); }
 .faq a { color: var(--blue); font-weight: 700; }
 @media (max-width: 1080px) { .faq__grid { grid-template-columns: 1fr; } }
+
+/* Agentur-Hinweis */
+.footer__credit { margin: 18px 0 0; font-size: 12px; letter-spacing: .04em; color: rgba(247, 240, 227, .7); text-align: center; }
+.footer__credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(247, 240, 227, .35); transition: color .2s; }
+.footer__credit a:hover { color: var(--amber); }
+@media (max-width: 720px) { .footer__credit { text-align: left; } }
