@@ -28,12 +28,13 @@ tools/
   menu.json            Speisekarte Imbiss (Preise: Feld "price", z. B. "9,50")
   biergarten-karte.json Biergarten-Karte (gleiches Format; leer = Hinweis „wird neu geschrieben“)
   legal.json           Inhaber, USt-ID, Hoster, Stand
+  faq.json             Häufige Fragen (Seite und Google-Daten aus einer Quelle)
 ```
 
 ## Inhalte ändern
 
 - **Startseite:** direkt in `docs/index.html`.
-- **Speisekarten, Impressum, Datenschutz:** `tools/menu.json`, `tools/biergarten-karte.json` bzw. `tools/legal.json` bearbeiten, dann ausführen:
+- **Speisekarten, häufige Fragen, Impressum, Datenschutz:** `tools/menu.json`, `tools/biergarten-karte.json`, `tools/faq.json` bzw. `tools/legal.json` bearbeiten, dann ausführen (schreibt auch die Sitemap neu):
 
 ```bash
 python3 tools/build-pages.py

@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Erzeugt die Unterseiten (Speisekarte, Impressum, Datenschutz, Bildnachweise) in docs/.
 
-Kopf- und Fußzeile kommen aus docs/index.html, damit alle Seiten gleich aussehen.
-Inhalte pflegen: Speisekarte in tools/menu.json, Rechtsangaben in tools/legal.json.
+Kopf, Kopfzeile und Fußzeile kommen aus docs/index.html (Marker HEAD-COMMON,
+HEADER, FOOTER), damit alle Seiten gleich aussehen. Die häufigen Fragen aus
+tools/faq.json werden in index.html eingesetzt (sichtbar und als JSON-LD).
+Inhalte pflegen: Speisekarten in tools/menu.json und tools/biergarten-karte.json,
+häufige Fragen in tools/faq.json, Rechtsangaben in tools/legal.json.
 Aufruf:  python3 tools/build-pages.py
 """
 import html, json, re
@@ -10,7 +13,31 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
+SITE = "Bahnstadt Grill Opladen"
+BASE_URL = "https://bahnstadtgrill.de/"
 index = (DOCS / "index.html").read_text(encoding="utf-8")
+
+
+def fill(marker, content):
+    """Ersetzt den Inhalt zwischen <!--MARKER--> und <!--/MARKER--> in index.html."""
+    global index
+    start, end = f"<!--{marker}-->", f"<!--/{marker}-->"
+    a = index.index(start) + len(start)
+    b = index.index(end, a)
+    index = index[:a] + content + index[b:]
+
+
+# ---------------------------------------------------------------- Häufige Fragen (eine Quelle für Seite und JSON-LD)
+faq = json.loads((ROOT / "tools" / "faq.json").read_text(encoding="utf-8"))
+fill("FAQ-LIST", "\n" + "\n".join(
+    f'        <details class="faq__item"><summary>{html.escape(f["frage"])}</summary><p>{html.escape(f["antwort"])}</p></details>'
+    for f in faq) + "\n")
+faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "@id": BASE_URL + "#faq",
+          "mainEntity": [{"@type": "Question", "name": f["frage"],
+                          "acceptedAnswer": {"@type": "Answer", "text": f["antwort"]}} for f in faq]}
+fill("FAQ-LD", '\n<script type="application/ld+json">\n'
+     + json.dumps(faq_ld, ensure_ascii=False).replace("</", "<\\/") + "\n</script>\n")
+(DOCS / "index.html").write_text(index, encoding="utf-8")
 
 
 def between(start, end):
@@ -19,6 +46,7 @@ def between(start, end):
     return index[a:b]
 
 
+head_common = between("<!--HEAD-COMMON-->", "<!--/HEAD-COMMON-->")
 header = between("<!--HEADER-->", "<!--/HEADER-->")
 footer = between("<!--FOOTER-->", "<!--/FOOTER-->")
 
@@ -29,29 +57,26 @@ def todo(value, hint):
     return html.escape(value) if value else f'<mark class="todo">[Bitte ergänzen: {html.escape(hint)}]</mark>'
 
 
+sitemap = [BASE_URL]
+
+
 def page(slug, title, description, h1, lead, body, robots="index,follow"):
+    full_title = f"{title} | {SITE}"
+    if robots.startswith("index"):
+        sitemap.append(BASE_URL + slug)
     return f"""<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{html.escape(title)}</title>
+<title>{html.escape(full_title)}</title>
 <meta name="description" content="{html.escape(description)}">
 <meta name="robots" content="{robots}">
-<meta name="theme-color" content="#08132e">
-<meta name="color-scheme" content="light only">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<link rel="canonical" href="https://bahnstadtgrill.de/{slug}">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{html.escape(title)}">
+<link rel="canonical" href="{BASE_URL}{slug}">
+<meta property="og:url" content="{BASE_URL}{slug}">
+<meta property="og:title" content="{html.escape(full_title)}">
 <meta property="og:description" content="{html.escape(description)}">
-<meta property="og:site_name" content="Bahnstadt Grill Opladen">
-<meta property="og:url" content="https://bahnstadtgrill.de/{slug}">
-<meta property="og:image" content="https://bahnstadtgrill.de/share.jpg">
-<link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css">
+{head_common}
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -121,7 +146,7 @@ menu = json.loads((ROOT / "tools" / "menu.json").read_text(encoding="utf-8"))
 (DOCS / "speisekarte.html").write_text(
     page(
         "speisekarte.html",
-        "Speisekarte: Gyros, Pizza und Schnitzel | Bahnstadt Grill Opladen",
+        "Speisekarte: Gyros, Pizza und Schnitzel",
         "Speisekarte des Bahnstadt Grill am Bahnhof Leverkusen-Opladen: Gyros Pita, Gyros-Teller, Pizza, Schnitzel, Currywurst, vegetarische Gerichte und kühle Getränke.",
         "Die Karte",
         "Imbiss und Gastraum, Montag bis Samstag 11:30 bis 21 Uhr. Alles auch zum Mitnehmen. Tzatziki und Krautsalat machen wir selbst.",
@@ -134,7 +159,7 @@ garden = json.loads((ROOT / "tools" / "biergarten-karte.json").read_text(encodin
 (DOCS / "biergarten-karte.html").write_text(
     page(
         "biergarten-karte.html",
-        "Biergarten-Karte | Bahnstadt Grill Opladen",
+        "Biergarten-Karte",
         "Die Karte des Bahnstadt Biergartens in Leverkusen-Opladen, Montag bis Samstag von 17 bis 22 Uhr.",
         "Biergarten",
         "Eigene Karte für draußen, Montag bis Samstag von 17 bis 22 Uhr.",
@@ -147,7 +172,7 @@ garden = json.loads((ROOT / "tools" / "biergarten-karte.json").read_text(encodin
 L = legal
 impressum = f"""<div class="prose">
 <h2>Angaben gemäß § 5 DDG</h2>
-<p>Bahnstadt Grill Opladen<br>{todo(L['owner'], 'Vor- und Nachname des Inhabers bzw. Firma mit Rechtsform und Vertretungsberechtigten')}<br>Lützenkirchener Straße 12<br>51379 Leverkusen</p>
+<p>{SITE}<br>{todo(L['owner'], 'Vor- und Nachname des Inhabers bzw. Firma mit Rechtsform und Vertretungsberechtigten')}<br>Lützenkirchener Straße 12<br>51379 Leverkusen</p>
 <h2>Kontakt</h2>
 <p>Telefon: <a href="tel:+49217180154">02171 80154</a><br>E-Mail: <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a></p>
 <h2>Umsatzsteuer-ID</h2>
@@ -160,14 +185,14 @@ impressum = f"""<div class="prose">
 <p>Die Bildnachweise stehen auf einer <a href="credits.html">eigenen Seite</a>.</p>
 </div>"""
 (DOCS / "impressum.html").write_text(
-    page("impressum.html", "Impressum | Bahnstadt Grill Opladen", "Impressum und Anbieterkennzeichnung des Bahnstadt Grill Opladen.", "Impressum", "", impressum, "noindex,follow"),
+    page("impressum.html", "Impressum", f"Impressum und Anbieterkennzeichnung: {SITE}.", "Impressum", "", impressum, "noindex,follow"),
     encoding="utf-8",
 )
 
 # ---------------------------------------------------------------- Datenschutz
 datenschutz = f"""<div class="prose">
 <h2>Verantwortlicher</h2>
-<p>Bahnstadt Grill Opladen, {todo(L['owner'], 'Name des Inhabers')}, Lützenkirchener Straße 12, 51379 Leverkusen. Telefon <a href="tel:+49217180154">02171 80154</a>, E-Mail <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a>.</p>
+<p>{SITE}, {todo(L['owner'], 'Name des Inhabers')}, Lützenkirchener Straße 12, 51379 Leverkusen. Telefon <a href="tel:+49217180154">02171 80154</a>, E-Mail <a href="mailto:bahnstadtgrill@gmail.com">bahnstadtgrill@gmail.com</a>.</p>
 <h2>Kurz gesagt</h2>
 <p>Diese Website setzt keine Cookies, nutzt kein Tracking und lädt beim Aufruf nichts von Google oder anderen Drittanbietern. Schriften und Bilder liegen auf demselben Server wie die Seite. Google Maps wird nur nach Ihrem Klick geladen (siehe unten).</p>
 <h2>Hosting</h2>
@@ -186,7 +211,7 @@ datenschutz = f"""<div class="prose">
 <p>{todo(L['asOf'], 'Datum der rechtlichen Prüfung')}</p>
 </div>"""
 (DOCS / "datenschutz.html").write_text(
-    page("datenschutz.html", "Datenschutz | Bahnstadt Grill Opladen", "Datenschutzerklärung des Bahnstadt Grill Opladen: keine Cookies, kein Tracking.", "Datenschutz", "", datenschutz, "noindex,follow"),
+    page("datenschutz.html", "Datenschutz", f"Datenschutzerklärung {SITE}: keine Cookies, kein Tracking.", "Datenschutz", "", datenschutz, "noindex,follow"),
     encoding="utf-8",
 )
 
@@ -207,8 +232,8 @@ for own in legal.get("ownPhotos", []):
 (DOCS / "credits.html").write_text(
     page(
         "credits.html",
-        "Bildnachweise | Bahnstadt Grill Opladen",
-        "Herkunft und Lizenzen der Fotos auf der Website des Bahnstadt Grill Opladen.",
+        "Bildnachweise",
+        f"Herkunft und Lizenzen der Fotos auf der Website {SITE}.",
         "Bildnachweise",
         "Fotos von Wikimedia Commons unter freien Lizenzen. Sie werden nach und nach durch eigene Fotos des Hauses ersetzt.",
         f'<ul class="credits-list prose">{"".join(rows)}</ul>',
@@ -216,4 +241,9 @@ for own in legal.get("ownPhotos", []):
     ),
     encoding="utf-8",
 )
-print("geschrieben: speisekarte.html, biergarten-karte.html, impressum.html, datenschutz.html, credits.html")
+(DOCS / "sitemap.xml").write_text(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "".join(f"  <url><loc>{u}</loc></url>\n" for u in sitemap) + "</urlset>\n",
+    encoding="utf-8",
+)
+print("geschrieben: index.html (FAQ), sitemap.xml, speisekarte.html, biergarten-karte.html, impressum.html, datenschutz.html, credits.html")
