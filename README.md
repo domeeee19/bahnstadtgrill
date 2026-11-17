@@ -2,7 +2,7 @@
 
 Website des **Bahnstadtgrill Opladen** (ehemals „Zur Schwelle“): griechischer Grill, Kneipe und Biergarten am Bahnhof Opladen, Lützenkirchener Straße 12, 51379 Leverkusen.
 
-**Branch `claude/fancy-redesign`:** eigenständige, verspieltere Gestaltung „Abfahrt Gyros“ – Nachtblau, Markisenblau und Signal-Orange, animierte Fallblatt-Abfahrtstafel mit Live-Uhr und Öffnungsstatus, Laufband, Speisekarte mit Tabs und Bildvorschau am Mauszeiger, Biergarten-Polaroids, Spieltag-Tafel, ein Gleis, das sich beim Scrollen durch die Geschichte zeichnet, und eine animierte Wegskizze vom Bahnhof. Reines HTML, CSS und JavaScript ohne Abhängigkeiten; alle Animationen ruhen bei „Bewegung reduzieren“.
+**Branch `claude/konzept-taverna`:** Gestaltung „Taverna“ – hell und mediterran: Kalkweiß, Ägäis-Blau und Terrakotta, Serifenschrift Fraunces mit Figtree, Speisekarte wie eine gedruckte Karte mit Filter „Nur vegetarisch“, Biergarten mit Infokarte, Zeitleiste zur Geschichte. Reines HTML, CSS und JavaScript ohne Abhängigkeiten; Animationen ruhen bei „Bewegung reduzieren“.
 
 Offene Punkte und die Go-live-Checkliste stehen in [`UEBERGABE.md`](UEBERGABE.md).
 
@@ -22,7 +22,7 @@ docs/
   assets/app.js        Fallblatt-Tafel, Live-Status, Tabs, Scroll-Effekte
   assets/logo/         Logo (Nachzeichnung des Hausschilds)
   assets/img/          Fotos (WebP)
-  assets/fonts/        Anton, DM Sans, Fraunces – lokal (keine Verbindung zu Google Fonts)
+  assets/fonts/        Fraunces, Figtree – lokal (keine Verbindung zu Google Fonts)
 tools/
   build-pages.py       erzeugt die Unterseiten
   menu.json            Speisekarte Imbiss (Preise: Feld "price", z. B. "9,50")

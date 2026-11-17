@@ -30,53 +30,12 @@
   function paintStatus() {
     const s = status();
     $$('[data-status]').forEach(el => { el.textContent = s.text; });
+    $$('[data-status-pill]').forEach(el => el.classList.toggle('is-open', s.open));
     $$('[data-status-dot]').forEach(el => el.classList.toggle('is-closed', !s.open));
     const { day } = local();
     $$('[data-hours] .hours__row').forEach(r => r.classList.toggle('is-today', r.dataset.days.split(',').includes(String(day))));
   }
 
-  /* ---------------------------------------------------------- Fallblatt */
-  const DIGITS = '0123456789';
-  function buildFlaps(el, text) {
-    el.textContent = '';
-    for (const ch of text) {
-      const f = document.createElement('span');
-      f.className = ch === ':' ? 'flap flap--sep' : 'flap';
-      f.textContent = ch === ':' ? ':' : '0';
-      el.append(f);
-    }
-    el.setAttribute('aria-label', text);
-  }
-  function flipTo(el, text, delay = 0) {
-    if (el.children.length !== text.length) buildFlaps(el, text);
-    el.setAttribute('aria-label', text);
-    [...el.children].forEach((f, i) => {
-      const target = text[i];
-      if (target === ':' || reduce) { f.textContent = target; return; }
-      if (f.textContent === target) return;
-      let n = 6 + i * 3 + Math.floor(Math.random() * 4);
-      const tick = () => {
-        f.classList.remove('is-flipping');
-        void f.offsetWidth;
-        f.classList.add('is-flipping');
-        f.textContent = n <= 0 ? target : DIGITS[Math.floor(Math.random() * DIGITS.length)];
-        if (n-- > 0) setTimeout(tick, 70);
-      };
-      setTimeout(tick, delay + i * 60);
-    });
-  }
-  $$('[data-flap]').forEach((el, i) => {
-    buildFlaps(el, '00:00');
-    setTimeout(() => flipTo(el, el.dataset.flap), 700 + i * 260);
-  });
-  const clock = $('[data-clock]');
-  if (clock) {
-    clock.classList.add('flaps');
-    buildFlaps(clock, '00:00');
-    const tickClock = () => flipTo(clock, local().clock);
-    setTimeout(tickClock, 500);
-    setInterval(() => { tickClock(); paintStatus(); }, 15000);
-  }
   paintStatus();
 
   /* ---------------------------------------------------------- Header und Aktionsleiste */
@@ -142,84 +101,11 @@
     });
   });
 
-  /* ---------------------------------------------------------- Bild folgt dem Zeiger */
-  const peek = $('[data-peek-box]');
-  if (peek && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const img = $('img', peek);
-    let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
-    const loop = () => {
-      x += (tx - x) * 0.18; y += (ty - y) * 0.18;
-      peek.style.left = x + 'px'; peek.style.top = y + 'px';
-      raf = requestAnimationFrame(loop);
-    };
-    $$('[data-peek]').forEach(d => {
-      d.addEventListener('mouseenter', e => {
-        img.src = d.dataset.peek;
-        tx = x = e.clientX + 150; ty = y = e.clientY;
-        peek.classList.add('is-on');
-        cancelAnimationFrame(raf); loop();
-      });
-      d.addEventListener('mousemove', e => { tx = e.clientX + 150; ty = e.clientY; });
-      d.addEventListener('mouseleave', () => { peek.classList.remove('is-on'); setTimeout(() => cancelAnimationFrame(raf), 400); });
-    });
-  }
 
-  /* ---------------------------------------------------------- Zitat leuchtet Wort für Wort auf */
-  const quote = $('[data-words]');
-  if (quote) {
-    const wrapWords = node => {
-      [...node.childNodes].forEach(n => {
-        if (n.nodeType === 3) {
-          const frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(part => {
-            if (!part) return;
-            if (/^\s+$/.test(part)) { frag.append(part); return; }
-            const s = document.createElement('span');
-            s.className = 'w'; s.textContent = part; frag.append(s);
-          });
-          n.replaceWith(frag);
-        } else wrapWords(n);
-      });
-    };
-    wrapWords(quote);
-    const words = $$('.w', quote);
-    words[0].textContent = '„' + words[0].textContent;
-    words[words.length - 1].textContent += '“';
-    const light = () => {
-      const r = quote.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35)));
-      const outside = r.top > innerHeight || r.bottom < 0;
-      const n = reduce || outside ? words.length : Math.round(p * words.length * 1.15);
-      words.forEach((w, i) => w.classList.toggle('is-lit', i < n));
-    };
-    addEventListener('scroll', light, { passive: true });
-    light();
-  }
-
-  /* ---------------------------------------------------------- Das Gleis zeichnet sich */
-  const track = $('[data-track]');
-  if (track) {
-    const stops = $$('[data-stop]', track);
-    const draw = () => {
-      const r = track.getBoundingClientRect();
-      const p = reduce ? 1 : Math.min(1, Math.max(0, (innerHeight * 0.8 - r.top) / (r.height * 0.9)));
-      track.style.setProperty('--p', p.toFixed(3));
-      track.style.setProperty('--track-w', r.width + 'px');
-      stops.forEach((s, i) => s.classList.toggle('is-reached', p >= i / stops.length + 0.02));
-    };
-    addEventListener('scroll', draw, { passive: true });
-    addEventListener('resize', draw);
-    draw();
-  }
-
-  /* ---------------------------------------------------------- Parallax im Bogen */
-  const arch = $('[data-parallax] img');
-  if (arch && !reduce) {
-    addEventListener('scroll', () => {
-      const y = Math.min(scrollY, 900);
-      arch.style.transform = `scale(1.12) translateY(${y * 0.06}px)`;
-    }, { passive: true });
-  }
+  /* ---------------------------------------------------------- Nur vegetarisch */
+  const veg = $('[data-veg]');
+  const menuBox = $('[data-menu]');
+  if (veg && menuBox) veg.addEventListener('change', () => menuBox.classList.toggle('veg-only', veg.checked));
 
   /* ---------------------------------------------------------- Google Maps nach Klick */
   const mapLoad = $('[data-map-load]');
@@ -311,7 +197,4 @@
     });
   }
 
-  /* ---------------------------------------------------------- Laufband nahtlos */
-  const ticker = $('[data-ticker]');
-  if (ticker) ticker.append(ticker.firstElementChild.cloneNode(true));
 })();
