@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 236" role="img" aria-label="Bahnstadt Grill">
+  <!-- Nachzeichnung des Schilds am Haus (Bogen, blauer Rand, Lok). Ersetzen, sobald die Originaldatei vorliegt. -->
+  <defs>
+    <path id="bogen" d="M28 110 A72 72 0 0 1 172 110"/>
+  </defs>
+  <path d="M8 230V96a92 92 0 0 1 184 0v134z" fill="#fffdf8" stroke="#17479b" stroke-width="6"/>
+  <path d="M17 222V96a83 83 0 0 1 166 0v126z" fill="none" stroke="#17479b" stroke-width="1.5" opacity=".55"/>
+  <text font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="23" letter-spacing="1" fill="#17479b"><textPath href="#bogen" startOffset="50%" text-anchor="middle">BAHNSTADT</textPath></text>
+  <!-- Lok, nach rechts fahrend -->
+  <g transform="translate(36 116)">
+    <path d="M6 30h96c12 0 22-6 26-14-8-9-24-14-42-14H22C12 2 6 9 6 18z" fill="#17479b"/>
+    <path d="M24 9h20v9H24zM50 9h20v9H50z" fill="#fffdf8"/>
+    <path d="M82 9h10c9 0 18 3 23 7H82z" fill="#cfdcf2"/>
+    <path d="M10 25h108" stroke="#fffdf8" stroke-width="2.4"/>
+    <path d="M0 36h124" stroke="#17479b" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+  <text x="100" y="196" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="30" letter-spacing="6" fill="#17479b">GRILL</text>
+</svg>
